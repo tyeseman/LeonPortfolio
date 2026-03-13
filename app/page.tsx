@@ -101,13 +101,39 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6 }}
+                  className="flex items-start gap-5"
                 >
-                  <h1 className="font-display text-4xl font-bold leading-none tracking-tight md:text-6xl lg:text-7xl">
-                    Leon C.
-                    <br />
-                    <span className="text-primary">Tyes</span>
-                  </h1>
-                  <p className="mt-4 text-base leading-relaxed text-muted-foreground md:mt-6 md:text-lg">
+                  {/* Profile Picture */}
+                  <div className="relative shrink-0">
+                    <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-primary/20 md:h-28 md:w-28">
+                      <img 
+                        src="/profile.jpg" 
+                        alt="Leon C. Tyes"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-background bg-primary md:h-5 md:w-5" />
+                  </div>
+                  
+                  {/* Name and Title */}
+                  <div>
+                    <h1 className="font-display text-3xl font-bold leading-none tracking-tight md:text-5xl lg:text-6xl">
+                      Leon C.
+                      <br />
+                      <span className="text-primary">Tyes</span>
+                    </h1>
+                    <p className="mt-2 text-sm font-medium tracking-wide text-muted-foreground md:mt-3 md:text-base">
+                      Visual Designer & Storyteller
+                    </p>
+                  </div>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.6 }}
+                >
+                  <p className="mt-5 text-base leading-relaxed text-muted-foreground md:mt-6 md:text-lg">
                     Visual designer crafting stories through branding, motion, and digital experiences. 
                     I transform ideas into memorable visual narratives.
                   </p>
