@@ -96,34 +96,17 @@ export default function Portfolio() {
           >
             <div className="grid h-full w-full max-w-7xl grid-cols-1 gap-4 py-20 md:grid-cols-12 md:gap-6 md:py-24">
               {/* Profile Section */}
-              <div className="relative col-span-1 flex flex-col justify-center md:col-span-5">
-                {/* Profile Image Background */}
-                <div className="pointer-events-none absolute -top-16 left-0 right-0 h-[calc(100%+4rem)] w-full overflow-hidden md:-top-20 md:h-[calc(100%+5rem)]">
-                  <div 
-                    className="absolute inset-0 bg-contain bg-top bg-no-repeat"
-                    style={{
-                      backgroundImage: 'url(/images/leon-profile.png)',
-                      maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 15%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.1) 60%, transparent 85%)',
-                      WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 15%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.1) 60%, transparent 85%)',
-                      opacity: 0.4,
-                    }}
-                  />
-                </div>
-                
+              <div className="col-span-1 flex flex-col justify-center md:col-span-5">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6 }}
-                  className="relative z-10"
                 >
                   <h1 className="font-display text-4xl font-bold leading-none tracking-tight md:text-6xl lg:text-7xl">
                     Leon C.
                     <br />
                     <span className="text-primary">Tyes</span>
                   </h1>
-                  <p className="mt-2 text-sm font-medium uppercase tracking-widest text-muted-foreground md:mt-3 md:text-base">
-                    Visual Designer & Storyteller
-                  </p>
                   <p className="mt-4 text-base leading-relaxed text-muted-foreground md:mt-6 md:text-lg">
                     Visual designer crafting stories through branding, motion, and digital experiences. 
                     I transform ideas into memorable visual narratives.
