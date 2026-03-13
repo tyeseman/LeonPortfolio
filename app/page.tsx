@@ -2,15 +2,55 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, Mail, Linkedin, Instagram, X } from "lucide-react"
+import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Calendar, Clock } from "lucide-react"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
 const projects = [
-  { title: "Cybersecurity Campaign", category: "Branding", year: "2024" },
-  { title: "Peanut Wear", category: "Apparel Design", year: "2024" },
-  { title: "Broadcast Graphics", category: "Motion", year: "2023" },
-  { title: "SmartTap NFC", category: "Digital Experience", year: "2023" },
+  { 
+    title: "Cybersecurity Campaign", 
+    category: "Branding", 
+    year: "2024",
+    thumbnail: "/projects/cyber.jpg",
+    images: ["/projects/cyber.jpg", "/projects/cyber-2.jpg", "/projects/cyber-3.jpg"],
+    description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
+    timeline: "8 weeks",
+    client: "SecureNet Inc.",
+    deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"]
+  },
+  { 
+    title: "Peanut Wear", 
+    category: "Apparel Design", 
+    year: "2024",
+    thumbnail: "/projects/peanut.jpg",
+    images: ["/projects/peanut.jpg", "/projects/peanut-2.jpg"],
+    description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
+    timeline: "6 weeks",
+    client: "Peanut Wear Co.",
+    deliverables: ["Logo Design", "Apparel Graphics", "Packaging", "Lookbook"]
+  },
+  { 
+    title: "Broadcast Graphics", 
+    category: "Motion", 
+    year: "2023",
+    thumbnail: "/projects/broadcast.jpg",
+    images: ["/projects/broadcast.jpg", "/projects/broadcast-2.jpg"],
+    description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
+    timeline: "12 weeks",
+    client: "National News Network",
+    deliverables: ["Lower Thirds", "Transitions", "Bumpers", "Full Rebrand Package"]
+  },
+  { 
+    title: "SmartTap NFC", 
+    category: "Digital Experience", 
+    year: "2023",
+    thumbnail: "/projects/smarttap.jpg",
+    images: ["/projects/smarttap.jpg", "/projects/smarttap-2.jpg"],
+    description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
+    timeline: "10 weeks",
+    client: "SmartTap Technologies",
+    deliverables: ["App Design", "Brand Identity", "Marketing Website", "Pitch Deck"]
+  },
 ]
 
 const expertise = [
@@ -23,12 +63,12 @@ const expertise = [
 ]
 
 const software = [
-  "Figma",
-  "After Effects",
-  "Illustrator",
-  "Photoshop",
-  "Cinema 4D",
-  "Premiere Pro"
+  { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
+  { name: "After Effects", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/aftereffects/aftereffects-original.svg" },
+  { name: "Illustrator", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" },
+  { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" },
+  { name: "Premiere Pro", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-plain.svg" },
+  { name: "Blender", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg" },
 ]
 
 const experience = [
@@ -37,9 +77,41 @@ const experience = [
   { role: "Junior Designer", company: "Design Co.", period: "2018 — 2020" },
 ]
 
+const reviews = [
+  {
+    name: "Sarah Chen",
+    company: "SecureNet Inc.",
+    rating: 5,
+    text: "Leon transformed our brand completely. His attention to detail and creative vision exceeded all expectations.",
+    avatar: "SC"
+  },
+  {
+    name: "Marcus Thompson",
+    company: "Peanut Wear Co.",
+    rating: 5,
+    text: "Working with Leon was an absolute pleasure. He understood our vision and brought it to life beautifully.",
+    avatar: "MT"
+  },
+  {
+    name: "Emily Rodriguez",
+    company: "SmartTap Technologies",
+    rating: 5,
+    text: "Incredible talent and professionalism. Leon delivered beyond what we imagined possible.",
+    avatar: "ER"
+  },
+  {
+    name: "David Park",
+    company: "National News Network",
+    rating: 5,
+    text: "The motion graphics package Leon created elevated our entire broadcast presence. Truly exceptional work.",
+    avatar: "DP"
+  },
+]
+
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("Home")
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
+  const [expandedProject, setExpandedProject] = useState<number | null>(null)
+  const [activeReview, setActiveReview] = useState(0)
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
@@ -101,18 +173,24 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6 }}
-                  className="flex items-start gap-5"
+                  className="flex flex-col"
                 >
-                  {/* Profile Picture */}
-                  <div className="relative shrink-0">
-                    <div className="h-20 w-20 overflow-hidden rounded-2xl border-2 border-primary/20 md:h-28 md:w-28">
-                      <img 
-                        src="/profile.jpg" 
-                        alt="Leon C. Tyes"
-                        className="h-full w-full object-cover"
-                      />
+                  {/* Profile Picture - Above Name */}
+                  <div className="relative mb-4 md:mb-6">
+                    <div className="relative h-24 w-24 md:h-32 md:w-32">
+                      {/* Decorative ring */}
+                      <div className="absolute inset-0 rounded-full border-2 border-dashed border-primary/30 animate-spin" style={{ animationDuration: '20s' }} />
+                      {/* Inner image container */}
+                      <div className="absolute inset-2 overflow-hidden rounded-full border-2 border-primary/50">
+                        <img 
+                          src="/profile.png" 
+                          alt="Leon C. Tyes"
+                          className="h-full w-full object-cover object-top"
+                        />
+                      </div>
+                      {/* Online indicator */}
+                      <div className="absolute bottom-1 right-1 h-4 w-4 rounded-full border-2 border-background bg-primary md:h-5 md:w-5" />
                     </div>
-                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-background bg-primary md:h-5 md:w-5" />
                   </div>
                   
                   {/* Name and Title */}
@@ -122,7 +200,7 @@ export default function Portfolio() {
                       <br />
                       <span className="text-primary">Tyes</span>
                     </h1>
-                    <p className="mt-2 text-sm font-medium tracking-wide text-muted-foreground md:mt-3 md:text-base">
+                    <p className="mt-2 text-sm font-medium tracking-widest uppercase text-primary/80 md:mt-3 md:text-base">
                       Visual Designer & Storyteller
                     </p>
                   </div>
@@ -133,11 +211,11 @@ export default function Portfolio() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.6 }}
                 >
-                  <p className="mt-5 text-base leading-relaxed text-muted-foreground md:mt-6 md:text-lg">
+                  <p className="mt-4 text-base leading-relaxed text-muted-foreground md:mt-5 md:text-lg">
                     Visual designer crafting stories through branding, motion, and digital experiences. 
                     I transform ideas into memorable visual narratives.
                   </p>
-                  <div className="mt-6 flex gap-4 md:mt-8">
+                  <div className="mt-5 flex gap-4 md:mt-6">
                     <button 
                       onClick={() => setActiveSection("Work")}
                       className="group flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-all hover:gap-3"
@@ -171,9 +249,14 @@ export default function Portfolio() {
                   </div>
                   <div className="mt-3 space-y-2 md:mt-4">
                     {projects.slice(0, 3).map((project, i) => (
-                      <div key={i} className="flex items-center justify-between border-b border-border/50 pb-2 last:border-0 last:pb-0">
-                        <span className="text-sm font-medium">{project.title}</span>
-                        <span className="text-xs text-muted-foreground">{project.year}</span>
+                      <div key={i} className="flex items-center gap-3 border-b border-border/50 pb-2 last:border-0 last:pb-0">
+                        <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-secondary">
+                          <div className="h-full w-full bg-gradient-to-br from-primary/20 to-primary/5" />
+                        </div>
+                        <div className="flex flex-1 items-center justify-between">
+                          <span className="text-sm font-medium">{project.title}</span>
+                          <span className="text-xs text-muted-foreground">{project.year}</span>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -199,7 +282,7 @@ export default function Portfolio() {
                   </div>
                 </motion.div>
 
-                {/* Software Card */}
+                {/* Software Card with Logos */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -207,14 +290,19 @@ export default function Portfolio() {
                   className="col-span-1 rounded-2xl border border-border bg-card p-4 md:p-5"
                 >
                   <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Software</h3>
-                  <div className="mt-3 flex flex-wrap gap-1.5 md:mt-4 md:gap-2">
+                  <div className="mt-3 grid grid-cols-3 gap-2 md:mt-4 md:gap-3">
                     {software.map((tool, i) => (
-                      <span 
+                      <div 
                         key={i} 
-                        className="rounded-full border border-border px-2.5 py-1 text-xs font-medium text-foreground"
+                        className="flex flex-col items-center gap-1.5 rounded-xl bg-secondary/50 p-2 transition-colors hover:bg-secondary"
                       >
-                        {tool}
-                      </span>
+                        <img 
+                          src={tool.icon} 
+                          alt={tool.name}
+                          className="h-5 w-5 md:h-6 md:w-6"
+                        />
+                        <span className="text-[10px] font-medium text-muted-foreground md:text-xs">{tool.name}</span>
+                      </div>
                     ))}
                   </div>
                 </motion.div>
@@ -253,9 +341,9 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full items-center justify-center px-6 md:px-12"
+            className="flex h-full w-full items-center justify-center overflow-y-auto px-6 md:px-12"
           >
-            <div className="grid h-full w-full max-w-6xl grid-cols-1 gap-8 py-20 md:grid-cols-2 md:gap-16 md:py-24">
+            <div className="grid h-full w-full max-w-6xl grid-cols-1 gap-6 py-20 md:grid-cols-2 md:gap-12 md:py-24">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -266,15 +354,15 @@ export default function Portfolio() {
                   About
                   <span className="text-primary">.</span>
                 </h2>
-                <p className="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">
+                <p className="mt-5 text-base leading-relaxed text-muted-foreground md:text-lg">
                   I'm a visual designer with over 6 years of experience crafting brand identities, 
                   motion graphics, and digital experiences that tell compelling stories.
                 </p>
-                <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                <p className="mt-3 text-base leading-relaxed text-muted-foreground md:text-lg">
                   My approach combines strategic thinking with creative execution, ensuring every 
                   project not only looks beautiful but also achieves its intended goals.
                 </p>
-                <div className="mt-8 grid grid-cols-3 gap-4">
+                <div className="mt-6 grid grid-cols-3 gap-4">
                   <div>
                     <p className="font-display text-3xl font-bold text-primary md:text-4xl">6+</p>
                     <p className="mt-1 text-xs text-muted-foreground md:text-sm">Years Experience</p>
@@ -296,21 +384,63 @@ export default function Portfolio() {
                 transition={{ delay: 0.2, duration: 0.6 }}
                 className="flex flex-col justify-center gap-4"
               >
+                {/* Client Reviews Card */}
                 <div className="rounded-2xl border border-border bg-card p-5 md:p-6">
-                  <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Philosophy</h3>
-                  <p className="mt-4 font-display text-xl font-medium leading-snug md:text-2xl">
-                    "Design is not just what it looks like — it's how it makes people feel and act."
-                  </p>
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Client Reviews</h3>
+                    <div className="flex gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-3.5 w-3.5 fill-primary text-primary" />
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeReview}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <p className="text-sm leading-relaxed text-foreground italic">
+                          "{reviews[activeReview].text}"
+                        </p>
+                        <div className="mt-3 flex items-center gap-3">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20 text-xs font-bold text-primary">
+                            {reviews[activeReview].avatar}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium">{reviews[activeReview].name}</p>
+                            <p className="text-xs text-muted-foreground">{reviews[activeReview].company}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="mt-4 flex gap-2">
+                      {reviews.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveReview(i)}
+                          className={`h-1.5 rounded-full transition-all ${
+                            i === activeReview ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 </div>
+
+                {/* Career Timeline */}
                 <div className="rounded-2xl border border-border bg-card p-5 md:p-6">
                   <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Career Timeline</h3>
                   <div className="mt-4 space-y-4">
                     {experience.map((exp, i) => (
                       <div key={i} className="relative flex gap-4 pl-4">
-                        <div className="absolute left-0 top-2 h-2 w-2 rounded-full bg-primary" />
+                        <div className="absolute left-0 top-1.5 h-2 w-2 rounded-full bg-primary" />
                         <div className={i < experience.length - 1 ? "border-l border-border/50 pb-4 pl-4" : "pl-4"}>
                           <p className="text-sm font-medium">{exp.role}</p>
-                          <p className="text-xs text-muted-foreground">{exp.company} • {exp.period}</p>
+                          <p className="text-xs text-muted-foreground">{exp.company} &bull; {exp.period}</p>
                         </div>
                       </div>
                     ))}
@@ -328,9 +458,9 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full items-center justify-center px-6 md:px-12"
+            className="flex h-full w-full items-start justify-center overflow-y-auto px-6 md:px-12"
           >
-            <div className="flex h-full w-full max-w-6xl flex-col justify-center py-20 md:py-24">
+            <div className="flex w-full max-w-6xl flex-col py-20 md:py-24">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -340,53 +470,100 @@ export default function Portfolio() {
                 Selected Work<span className="text-primary">.</span>
               </motion.h2>
               
-              <div className="mt-8 flex-1 md:mt-12">
+              <div className="mt-6 md:mt-10">
                 {projects.map((project, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 + i * 0.1, duration: 0.6 }}
-                    onMouseEnter={() => setHoveredProject(i)}
-                    onMouseLeave={() => setHoveredProject(null)}
-                    className="group relative cursor-pointer border-b border-border py-4 transition-colors hover:border-primary/50 md:py-6"
+                    className="border-b border-border"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4 md:gap-8">
+                    <button
+                      onClick={() => setExpandedProject(expandedProject === i ? null : i)}
+                      className="group flex w-full items-center justify-between py-4 transition-colors hover:text-primary md:py-5"
+                    >
+                      <div className="flex items-center gap-4 md:gap-6">
                         <span className="font-mono text-xs text-muted-foreground md:text-sm">
                           {String(i + 1).padStart(2, "0")}
                         </span>
-                        <h3 className="font-display text-xl font-medium transition-colors group-hover:text-primary md:text-3xl">
-                          {project.title}
-                        </h3>
+                        <div className="h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-secondary md:h-16 md:w-16">
+                          <div className="h-full w-full bg-gradient-to-br from-primary/30 to-primary/5" />
+                        </div>
+                        <div className="text-left">
+                          <h3 className="font-display text-lg font-medium transition-colors group-hover:text-primary md:text-2xl">
+                            {project.title}
+                          </h3>
+                          <p className="text-xs text-muted-foreground md:text-sm">{project.category} &bull; {project.year}</p>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-4 md:gap-8">
-                        <span className="hidden text-sm text-muted-foreground md:block">{project.category}</span>
-                        <span className="text-xs text-muted-foreground md:text-sm">{project.year}</span>
-                        <ArrowUpRight className={`h-4 w-4 transition-all md:h-5 md:w-5 ${
-                          hoveredProject === i 
-                            ? "text-primary translate-x-1 -translate-y-1" 
-                            : "text-muted-foreground"
-                        }`} />
-                      </div>
-                    </div>
-                    <motion.div
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: hoveredProject === i ? 1 : 0 }}
-                      className="absolute bottom-0 left-0 h-px w-full origin-left bg-primary"
-                    />
+                      <ChevronDown className={`h-5 w-5 text-muted-foreground transition-transform md:h-6 md:w-6 ${
+                        expandedProject === i ? "rotate-180" : ""
+                      }`} />
+                    </button>
+                    
+                    <AnimatePresence>
+                      {expandedProject === i && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pb-6 pl-12 md:pl-20">
+                            {/* Project Images */}
+                            <div className="flex gap-3 overflow-x-auto pb-4">
+                              {[1, 2, 3].map((_, imgIndex) => (
+                                <div 
+                                  key={imgIndex} 
+                                  className="h-32 w-48 shrink-0 overflow-hidden rounded-xl bg-secondary md:h-40 md:w-60"
+                                >
+                                  <div className="h-full w-full bg-gradient-to-br from-primary/20 to-primary/5" />
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Project Description */}
+                            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                              {project.description}
+                            </p>
+                            
+                            {/* Project Details */}
+                            <div className="mt-4 flex flex-wrap gap-4 md:gap-6">
+                              <div className="flex items-center gap-2 text-sm">
+                                <Clock className="h-4 w-4 text-primary" />
+                                <span className="text-muted-foreground">Timeline:</span>
+                                <span className="font-medium">{project.timeline}</span>
+                              </div>
+                              <div className="flex items-center gap-2 text-sm">
+                                <Calendar className="h-4 w-4 text-primary" />
+                                <span className="text-muted-foreground">Client:</span>
+                                <span className="font-medium">{project.client}</span>
+                              </div>
+                            </div>
+                            
+                            {/* Deliverables */}
+                            <div className="mt-4">
+                              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Deliverables</p>
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {project.deliverables.map((item, idx) => (
+                                  <span 
+                                    key={idx}
+                                    className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground"
+                                  >
+                                    {item}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 ))}
               </div>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
-                className="mt-6 text-sm text-muted-foreground md:mt-8"
-              >
-                Click on any project to view case study
-              </motion.p>
             </div>
           </motion.main>
         )}
