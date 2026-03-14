@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, User } from "lucide-react"
 import { useContent } from "@/context/content-context"
 import { TermsDialog } from "@/components/terms-dialog"
+import { BackgroundAnimation } from "@/components/background-animation"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
@@ -31,6 +32,9 @@ export default function Portfolio() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
+      {/* Subtle Background Animation */}
+      <BackgroundAnimation />
+      
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
         <motion.div 
