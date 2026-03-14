@@ -3,121 +3,31 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, User } from "lucide-react"
+import { useContent } from "@/context/content-context"
+import { TermsDialog } from "@/components/terms-dialog"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
-const projects = [
-  { 
-    title: "Cybersecurity Campaign", 
-    category: "Branding", 
-    year: "2024",
-    thumbnail: "/projects/cyber.jpg",
-    images: ["/projects/cyber.jpg", "/projects/cyber-2.jpg", "/projects/cyber-3.jpg"],
-    description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
-    timeline: "8 weeks",
-    client: "SecureNet Inc.",
-    deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"]
-  },
-  { 
-    title: "Peanut Wear", 
-    category: "Apparel Design", 
-    year: "2024",
-    thumbnail: "/projects/peanut.jpg",
-    images: ["/projects/peanut.jpg", "/projects/peanut-2.jpg"],
-    description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
-    timeline: "6 weeks",
-    client: "Peanut Wear Co.",
-    deliverables: ["Logo Design", "Apparel Graphics", "Packaging", "Lookbook"]
-  },
-  { 
-    title: "Broadcast Graphics", 
-    category: "Motion", 
-    year: "2023",
-    thumbnail: "/projects/broadcast.jpg",
-    images: ["/projects/broadcast.jpg", "/projects/broadcast-2.jpg"],
-    description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
-    timeline: "12 weeks",
-    client: "National News Network",
-    deliverables: ["Lower Thirds", "Transitions", "Bumpers", "Full Rebrand Package"]
-  },
-  { 
-    title: "SmartTap NFC", 
-    category: "Digital Experience", 
-    year: "2023",
-    thumbnail: "/projects/smarttap.jpg",
-    images: ["/projects/smarttap.jpg", "/projects/smarttap-2.jpg"],
-    description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
-    timeline: "10 weeks",
-    client: "SmartTap Technologies",
-    deliverables: ["App Design", "Brand Identity", "Marketing Website", "Pitch Deck"]
-  },
-]
-
-const expertise = [
-  "Brand Identity",
-  "Motion Design", 
-  "Digital Experience",
-  "Art Direction",
-]
-
-const software = [
-  { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
-  { name: "After Effects", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/aftereffects/aftereffects-original.svg" },
-  { name: "Illustrator", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/illustrator/illustrator-plain.svg" },
-  { name: "Photoshop", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/photoshop/photoshop-plain.svg" },
-  { name: "Premiere", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/premierepro/premierepro-plain.svg" },
-  { name: "Blender", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/blender/blender-original.svg" },
-]
-
-const experience = [
-  { role: "Senior Designer", company: "Studio Nova", period: "2022 — Present" },
-  { role: "Visual Designer", company: "Creative Lab", period: "2020 — 2022" },
-  { role: "Junior Designer", company: "Design Co.", period: "2018 — 2020" },
-]
-
-const reviews = [
-  {
-    name: "Sarah Chen",
-    company: "SecureNet Inc.",
-    rating: 5,
-    text: "Leon transformed our brand completely. His attention to detail and creative vision exceeded all expectations.",
-    avatar: "SC"
-  },
-  {
-    name: "Marcus Thompson",
-    company: "Peanut Wear Co.",
-    rating: 5,
-    text: "Working with Leon was an absolute pleasure. He understood our vision and brought it to life beautifully.",
-    avatar: "MT"
-  },
-  {
-    name: "Emily Rodriguez",
-    company: "SmartTap Technologies",
-    rating: 5,
-    text: "Incredible talent and professionalism. Leon delivered beyond what we imagined possible.",
-    avatar: "ER"
-  },
-  {
-    name: "David Park",
-    company: "National News Network",
-    rating: 5,
-    text: "The motion graphics package Leon created elevated our entire broadcast presence. Truly exceptional work.",
-    avatar: "DP"
-  },
-]
-
 export default function Portfolio() {
+  const { content } = useContent()
   const [activeSection, setActiveSection] = useState("Home")
   const [expandedProject, setExpandedProject] = useState<number | null>(null)
   const [activeReview, setActiveReview] = useState(0)
+  const [isTermsOpen, setIsTermsOpen] = useState(false)
 
   // Auto-loop reviews every 4 seconds
   useEffect(() => {
+    if (content.reviews.length === 0) return
     const interval = setInterval(() => {
-      setActiveReview((prev) => (prev + 1) % reviews.length)
+      setActiveReview((prev) => (prev + 1) % content.reviews.length)
     }, 4000)
     return () => clearInterval(interval)
-  }, [])
+  }, [content.reviews.length])
+
+  // Extract first and last name for display
+  const nameParts = content.hero.name.split(" ")
+  const firstName = nameParts.slice(0, -1).join(" ")
+  const lastName = nameParts[nameParts.length - 1]
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
@@ -201,8 +111,8 @@ export default function Portfolio() {
                       {/* Inner image container */}
                       <div className="absolute inset-2 overflow-hidden rounded-full ring-2 ring-primary/60">
                         <img 
-                          src="/profile.png" 
-                          alt="Leon C. Tyes"
+                          src={content.hero.profileImage} 
+                          alt={content.hero.name}
                           className="h-full w-full object-cover object-top"
                         />
                       </div>
@@ -213,14 +123,14 @@ export default function Portfolio() {
                   
                   {/* Name and Title */}
                   <h1 className="font-display text-2xl font-bold leading-none tracking-tight md:text-3xl lg:text-4xl">
-                    Leon C. <span className="text-primary">Tyes</span>
+                    {firstName} <span className="text-primary">{lastName}</span>
                   </h1>
                   <p className="mt-1.5 text-[10px] font-semibold tracking-[0.2em] uppercase text-primary/70 md:mt-2 md:text-xs">
-                    Visual Designer & Storyteller
+                    {content.hero.title}
                   </p>
                   
                   <p className="mt-3 text-xs leading-relaxed text-muted-foreground md:mt-4 md:text-sm">
-                    Crafting stories through branding, motion, and digital experiences that leave lasting impressions.
+                    {content.hero.tagline}
                   </p>
                   
                   <div className="mt-3 flex gap-2 md:mt-4">
@@ -257,7 +167,7 @@ export default function Portfolio() {
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {projects.slice(0, 3).map((project, i) => (
+                    {content.projects.slice(0, 3).map((project, i) => (
                       <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                         <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10" />
                         <div className="flex-1 min-w-0">
@@ -278,7 +188,7 @@ export default function Portfolio() {
                 >
                   <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Expertise</h3>
                   <div className="mt-1.5 flex flex-wrap gap-1 md:mt-2 md:gap-1.5">
-                    {expertise.map((skill, i) => (
+                    {content.expertise.map((skill, i) => (
                       <span key={i} className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium md:px-2.5 md:py-1 md:text-xs">
                         {skill}
                       </span>
@@ -295,7 +205,7 @@ export default function Portfolio() {
                 >
                   <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Software</h3>
                   <div className="mt-1.5 grid grid-cols-6 gap-1.5 md:mt-2 md:gap-2">
-                    {software.map((tool, i) => (
+                    {content.software.map((tool, i) => (
                       <div key={i} className="flex flex-col items-center gap-0.5 rounded-lg bg-secondary/50 p-1 transition-colors hover:bg-secondary md:gap-1 md:p-1.5">
                         <img src={tool.icon} alt={tool.name} className="h-4 w-4 md:h-5 md:w-5" />
                         <span className="hidden text-[8px] text-muted-foreground md:block md:text-[9px]">{tool.name}</span>
@@ -305,54 +215,56 @@ export default function Portfolio() {
                 </motion.div>
 
                 {/* Reviews - Auto-looping, spans 3 cols, 1 row */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="col-span-3 row-span-1 rounded-xl border border-border bg-card p-3 md:rounded-2xl md:p-4"
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Reviews</h3>
-                    <div className="flex gap-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-2.5 w-2.5 fill-primary text-primary md:h-3 md:w-3" />
+                {content.reviews.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                    className="col-span-3 row-span-1 rounded-xl border border-border bg-card p-3 md:rounded-2xl md:p-4"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Reviews</h3>
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-2.5 w-2.5 fill-primary text-primary md:h-3 md:w-3" />
+                        ))}
+                      </div>
+                    </div>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeReview}
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="mt-1.5 md:mt-2"
+                      >
+                        <p className="line-clamp-2 text-[10px] italic leading-relaxed text-foreground/80 md:text-xs">
+                          "{content.reviews[activeReview]?.text}"
+                        </p>
+                        <div className="mt-1.5 flex items-center gap-2 md:mt-2">
+                          <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/20 text-[8px] font-bold text-primary md:h-6 md:w-6 md:text-[10px]">
+                            {content.reviews[activeReview]?.avatar}
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-[10px] font-medium md:text-xs">{content.reviews[activeReview]?.name}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="mt-2 flex justify-center gap-1 md:mt-2.5">
+                      {content.reviews.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveReview(i)}
+                          className={`h-1 rounded-full transition-all ${
+                            i === activeReview ? "w-4 bg-primary" : "w-1 bg-border hover:bg-muted-foreground"
+                          }`}
+                        />
                       ))}
                     </div>
-                  </div>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeReview}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-1.5 md:mt-2"
-                    >
-                      <p className="line-clamp-2 text-[10px] italic leading-relaxed text-foreground/80 md:text-xs">
-                        "{reviews[activeReview].text}"
-                      </p>
-                      <div className="mt-1.5 flex items-center gap-2 md:mt-2">
-                        <div className="flex h-5 w-5 items-center justify-center rounded-full bg-primary/20 text-[8px] font-bold text-primary md:h-6 md:w-6 md:text-[10px]">
-                          {reviews[activeReview].avatar}
-                        </div>
-                        <div className="min-w-0">
-                          <p className="truncate text-[10px] font-medium md:text-xs">{reviews[activeReview].name}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                  <div className="mt-2 flex justify-center gap-1 md:mt-2.5">
-                    {reviews.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveReview(i)}
-                        className={`h-1 rounded-full transition-all ${
-                          i === activeReview ? "w-4 bg-primary" : "w-1 bg-border hover:bg-muted-foreground"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
+                  </motion.div>
+                )}
 
                 {/* Experience - spans 6 cols (full width), 1 row */}
                 <motion.div
@@ -367,7 +279,7 @@ export default function Portfolio() {
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-1.5 grid grid-cols-3 gap-2 md:mt-2 md:gap-4">
-                    {experience.map((exp, i) => (
+                    {content.experience.slice(0, 3).map((exp, i) => (
                       <div key={i} className="min-w-0">
                         <p className="truncate text-xs font-medium md:text-sm">{exp.role}</p>
                         <p className="truncate text-[10px] text-muted-foreground md:text-xs">{exp.company}</p>
@@ -401,24 +313,22 @@ export default function Portfolio() {
                   About<span className="text-primary">.</span>
                 </h2>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-base">
-                  I'm a visual designer with over 6 years of experience crafting brand identities, 
-                  motion graphics, and digital experiences that tell compelling stories.
+                  {content.about.bio}
                 </p>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">
-                  My approach combines strategic thinking with creative execution, ensuring every 
-                  project not only looks beautiful but achieves its intended goals.
+                  {content.about.secondaryBio}
                 </p>
                 <div className="mt-4 grid grid-cols-3 gap-3 md:mt-6 md:gap-4">
                   <div className="rounded-xl bg-card p-3 text-center md:p-4">
-                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">6+</p>
+                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">{content.about.yearsExperience}</p>
                     <p className="mt-0.5 text-[10px] text-muted-foreground md:text-xs">Years</p>
                   </div>
                   <div className="rounded-xl bg-card p-3 text-center md:p-4">
-                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">50+</p>
+                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">{content.about.projectsCompleted}</p>
                     <p className="mt-0.5 text-[10px] text-muted-foreground md:text-xs">Projects</p>
                   </div>
                   <div className="rounded-xl bg-card p-3 text-center md:p-4">
-                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">30+</p>
+                    <p className="font-display text-2xl font-bold text-primary md:text-3xl">{content.about.totalClients}</p>
                     <p className="mt-0.5 text-[10px] text-muted-foreground md:text-xs">Clients</p>
                   </div>
                 </div>
@@ -431,59 +341,61 @@ export default function Portfolio() {
                 className="flex flex-col justify-center gap-3 md:gap-4"
               >
                 {/* Client Reviews */}
-                <div className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Client Reviews</h3>
-                    <div className="flex gap-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="h-3 w-3 fill-primary text-primary md:h-3.5 md:w-3.5" />
+                {content.reviews.length > 0 && (
+                  <div className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Client Reviews</h3>
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="h-3 w-3 fill-primary text-primary md:h-3.5 md:w-3.5" />
+                        ))}
+                      </div>
+                    </div>
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={activeReview}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.3 }}
+                        className="mt-3"
+                      >
+                        <p className="text-xs italic leading-relaxed text-foreground/80 md:text-sm">
+                          "{content.reviews[activeReview]?.text}"
+                        </p>
+                        <div className="mt-2 flex items-center gap-2 md:mt-3">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-bold text-primary md:h-8 md:w-8 md:text-xs">
+                            {content.reviews[activeReview]?.avatar}
+                          </div>
+                          <div>
+                            <p className="text-xs font-medium md:text-sm">{content.reviews[activeReview]?.name}</p>
+                            <p className="text-[10px] text-muted-foreground md:text-xs">{content.reviews[activeReview]?.company}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                    <div className="mt-3 flex gap-1.5">
+                      {content.reviews.map((_, i) => (
+                        <button
+                          key={i}
+                          onClick={() => setActiveReview(i)}
+                          className={`h-1 rounded-full transition-all ${
+                            i === activeReview ? "w-5 bg-primary" : "w-1 bg-border hover:bg-muted-foreground"
+                          }`}
+                        />
                       ))}
                     </div>
                   </div>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={activeReview}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.3 }}
-                      className="mt-3"
-                    >
-                      <p className="text-xs italic leading-relaxed text-foreground/80 md:text-sm">
-                        "{reviews[activeReview].text}"
-                      </p>
-                      <div className="mt-2 flex items-center gap-2 md:mt-3">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-primary/20 text-[10px] font-bold text-primary md:h-8 md:w-8 md:text-xs">
-                          {reviews[activeReview].avatar}
-                        </div>
-                        <div>
-                          <p className="text-xs font-medium md:text-sm">{reviews[activeReview].name}</p>
-                          <p className="text-[10px] text-muted-foreground md:text-xs">{reviews[activeReview].company}</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                  <div className="mt-3 flex gap-1.5">
-                    {reviews.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setActiveReview(i)}
-                        className={`h-1 rounded-full transition-all ${
-                          i === activeReview ? "w-5 bg-primary" : "w-1 bg-border hover:bg-muted-foreground"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
+                )}
 
                 {/* Career Timeline */}
                 <div className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5">
                   <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Career Timeline</h3>
                   <div className="mt-3 space-y-3">
-                    {experience.map((exp, i) => (
+                    {content.experience.map((exp, i) => (
                       <div key={i} className="relative flex items-start gap-3 pl-3">
                         <div className="absolute left-0 top-1.5 h-1.5 w-1.5 rounded-full bg-primary md:h-2 md:w-2" />
-                        <div className={i < experience.length - 1 ? "border-l border-border/50 pb-3 pl-3" : "pl-3"}>
+                        <div className={i < content.experience.length - 1 ? "border-l border-border/50 pb-3 pl-3" : "pl-3"}>
                           <p className="text-xs font-medium md:text-sm">{exp.role}</p>
                           <p className="text-[10px] text-muted-foreground md:text-xs">{exp.company} &bull; {exp.period}</p>
                         </div>
@@ -516,7 +428,7 @@ export default function Portfolio() {
               </motion.h2>
               
               <div className="mt-4 md:mt-6">
-                {projects.map((project, i) => (
+                {content.projects.map((project, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, y: 20 }}
@@ -641,14 +553,14 @@ export default function Portfolio() {
               </motion.p>
 
               <motion.a
-                href="mailto:hello@leontyes.com"
+                href={`mailto:${content.hero.email}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="group mt-6 flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 md:mt-8 md:px-8 md:py-4 md:text-base"
               >
                 <Mail className="h-4 w-4 md:h-5 md:w-5" />
-                hello@leontyes.com
+                {content.hero.email}
                 <ArrowUpRight className="h-4 w-4 md:h-5 md:w-5" />
               </motion.a>
 
@@ -658,15 +570,15 @@ export default function Portfolio() {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="mt-6 flex items-center gap-4 md:mt-8 md:gap-6"
               >
-                <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
                   <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">LinkedIn</span>
                 </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
                   <Instagram className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Instagram</span>
                 </a>
-                <a href="#" className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
                   <X className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Twitter</span>
                 </a>
@@ -676,11 +588,20 @@ export default function Portfolio() {
         )}
       </AnimatePresence>
 
-      {/* Minimal Footer */}
+      {/* Footer with Terms & Conditions */}
       <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
-        <span>&copy; 2024 Leon C. Tyes</span>
-        <span>Visual Designer</span>
+        <span>&copy; 2024 {content.hero.name}</span>
+        <button 
+          onClick={() => setIsTermsOpen(true)}
+          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline"
+        >
+          Terms & Conditions
+        </button>
+        <span>{content.hero.title.split("&")[0].trim()}</span>
       </div>
+
+      {/* Terms & Conditions Dialog */}
+      <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Syne } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ContentProvider } from '@/context/content-context'
 import './globals.css'
 
 const spaceGrotesk = Space_Grotesk({ 
@@ -44,7 +45,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${spaceGrotesk.variable} ${syne.variable} font-sans antialiased`}>
-        {children}
+        <ContentProvider>
+          {children}
+        </ContentProvider>
         <Analytics />
       </body>
     </html>
