@@ -218,14 +218,12 @@ export default function Portfolio() {
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {content.projects.slice(0, 3).map((project, i) => {
-                      const firstImage = project.images?.[0] || project.thumbnail
-                      return (
+                    {content.projects.slice(0, 3).map((project, i) => (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10">
-                            {firstImage && (
+                            {project.thumbnail && (
                               <img 
-                                src={firstImage} 
+                                src={project.thumbnail} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -238,8 +236,7 @@ export default function Portfolio() {
                             <p className="text-[10px] text-muted-foreground md:text-xs">{project.category}</p>
                           </div>
                         </div>
-                      )
-                    })}
+                      ))}
                   </div>
                 </motion.div>
 
@@ -504,9 +501,7 @@ export default function Portfolio() {
               </motion.h2>
               
               <div className="mt-4 md:mt-6">
-                {content.projects.map((project, i) => {
-                  const firstImage = project.images?.[0] || project.thumbnail
-                  return (
+                {content.projects.map((project, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, y: 20 }}
@@ -523,9 +518,9 @@ export default function Portfolio() {
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-14 md:w-14 md:rounded-xl">
-                            {firstImage && (
+                            {project.thumbnail && (
                               <img 
-                                src={firstImage} 
+                                src={project.thumbnail} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -544,7 +539,6 @@ export default function Portfolio() {
                           expandedProject === i ? "rotate-180" : ""
                         }`} />
                       </button>
-                      
                       <AnimatePresence>
                         {expandedProject === i && (
                           <motion.div
@@ -619,8 +613,7 @@ export default function Portfolio() {
                         )}
                       </AnimatePresence>
                     </motion.div>
-                  )
-                })}
+                  ))}
               </div>
             </div>
           </motion.main>
