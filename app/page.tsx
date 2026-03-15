@@ -91,78 +91,6 @@ export default function Portfolio() {
       </nav>
 
       {/* Mobile Menu Overlay */}
-                      <AnimatePresence>
-                        {expandedProject === i && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pb-4 pl-10 md:pl-16 max-h-[calc(100vh-250px)] overflow-y-auto">
-                              {/* Project Description */}
-                            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
-                              {project.description}
-                            </p>
-
-                            {/* Detail Images */}
-                            {(project.detailImageOne || project.detailImageTwo) && (
-                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
-                                {project.detailImageOne && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.detailImageOne} 
-                                      alt={`${project.title} - Detail 1`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                                {project.detailImageTwo && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.detailImageTwo} 
-                                      alt={`${project.title} - Detail 2`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            {/* YouTube Video */}
-                            {project.youtubeVideoUrl && (
-                              <div className="mt-4 md:mt-6">
-                                <div className="max-w-2xl aspect-video overflow-hidden rounded-lg bg-black">
-                                  <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/) ? project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/)[1] : ''}`}
-                                    title={`${project.title} Video`}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="h-full w-full"
-                                  />
-                                </div>
-                              </div>
-                            }}
-                  className={`rounded-lg px-4 py-3 text-left font-medium transition-colors ${
-                    activeSection === item 
-                      ? "bg-primary text-primary-foreground" 
-                      : "text-foreground hover:bg-secondary"
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Main Content Area */}
       <AnimatePresence mode="wait">
@@ -590,7 +518,7 @@ export default function Portfolio() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-10 md:pl-16">
+                            <div className="pb-4 pl-10 md:pl-16 max-h-[calc(100vh-250px)] overflow-y-auto">
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
@@ -627,7 +555,7 @@ export default function Portfolio() {
                             {/* YouTube Video */}
                             {project.youtubeVideoUrl && (
                               <div className="mt-4 md:mt-6">
-                                <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
+                                <div className="max-w-2xl aspect-video overflow-hidden rounded-lg bg-black">
                                   <iframe
                                     width="100%"
                                     height="100%"
