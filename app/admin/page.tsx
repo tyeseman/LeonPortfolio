@@ -21,6 +21,14 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import { ImageUpload } from "@/components/image-upload"
 
 // Admin authentication check
 const ADMIN_PASSWORD = "Sianai4life@123"
@@ -400,13 +408,19 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="profileImage" className="text-xs">Profile Image URL</Label>
+                  <Label htmlFor="profileImage" className="text-xs">Profile Image</Label>
+                  <ImageUpload
+                    category="hero"
+                    label="Profile Picture"
+                    currentImage={editedContent.hero.profileImage}
+                    onImageUpload={(path) => updateHero("profileImage", path)}
+                  />
                   <Input
                     id="profileImage"
                     value={editedContent.hero.profileImage}
                     onChange={(e) => updateHero("profileImage", e.target.value)}
                     className="h-9 text-sm"
-                    placeholder="Paste image URL..."
+                    placeholder="Or paste URL..."
                   />
                 </div>
                 <div className="space-y-2">
@@ -655,12 +669,19 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Thumbnail Image URL (shown in Recent Work & Selected Work list)</Label>
+                          <Label className="text-xs font-semibold">Thumbnail Image (shown in Recent Work & Selected Work list)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Thumbnail Image"
+                            fieldName="thumbnail"
+                            currentImage={project.thumbnailImage}
+                            onImageUpload={(path) => updateProject(index, "thumbnailImage", path)}
+                          />
                           <Input
                             value={project.thumbnailImage}
                             onChange={(e) => updateProject(index, "thumbnailImage", e.target.value)}
                             className="h-8 text-sm"
-                            placeholder="Paste image URL..."
+                            placeholder="Or paste URL..."
                           />
                           {project.thumbnailImage && (
                             <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
@@ -676,12 +697,19 @@ export default function AdminDashboard() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Detail Image One URL (shown in expanded project view)</Label>
+                          <Label className="text-xs font-semibold">Detail Image One (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image One"
+                            fieldName="detail-one"
+                            currentImage={project.detailImageOne}
+                            onImageUpload={(path) => updateProject(index, "detailImageOne", path)}
+                          />
                           <Input
                             value={project.detailImageOne}
                             onChange={(e) => updateProject(index, "detailImageOne", e.target.value)}
                             className="h-8 text-sm"
-                            placeholder="Paste image URL..."
+                            placeholder="Or paste URL..."
                           />
                           {project.detailImageOne && (
                             <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
@@ -697,12 +725,19 @@ export default function AdminDashboard() {
                         </div>
 
                         <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Detail Image Two URL (shown in expanded project view)</Label>
+                          <Label className="text-xs font-semibold">Detail Image Two (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image Two"
+                            fieldName="detail-two"
+                            currentImage={project.detailImageTwo}
+                            onImageUpload={(path) => updateProject(index, "detailImageTwo", path)}
+                          />
                           <Input
                             value={project.detailImageTwo}
                             onChange={(e) => updateProject(index, "detailImageTwo", e.target.value)}
                             className="h-8 text-sm"
-                            placeholder="Paste image URL..."
+                            placeholder="Or paste URL..."
                           />
                           {project.detailImageTwo && (
                             <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
