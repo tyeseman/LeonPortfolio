@@ -576,40 +576,40 @@ export default function Portfolio() {
                               </div>
                               
                               {/* Project Description */}
-                              <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
-                                {project.description}
-                              </p>
-                              
-                              {/* Project Details */}
-                              <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
-                                <div className="flex items-center gap-1.5 text-xs md:gap-2">
-                                  <Clock className="h-3.5 w-3.5 text-primary md:h-4 md:w-4" />
-                                  <span className="text-muted-foreground">Timeline:</span>
-                                  <span className="font-medium">{project.timeline}</span>
-                                </div>
-                                <div className="flex items-center gap-1.5 text-xs md:gap-2">
-                                  <User className="h-3.5 w-3.5 text-primary md:h-4 md:w-4" />
-                                  <span className="text-muted-foreground">Client:</span>
-                                  <span className="font-medium">{project.client}</span>
-                                </div>
+                            <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
+                              {project.description}
+                            </p>
+                            
+                            {/* Project Details */}
+                            <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
+                              <div className="flex items-center gap-1.5 text-xs md:gap-2">
+                                <Clock className="h-3.5 w-3.5 text-primary md:h-4 md:w-4" />
+                                <span className="text-muted-foreground">Timeline:</span>
+                                <span className="font-medium">{project.timeline}</span>
                               </div>
-                              
-                              {/* Deliverables */}
-                              <div className="mt-3 md:mt-4">
-                                <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Deliverables</p>
-                                <div className="mt-1.5 flex flex-wrap gap-1.5 md:mt-2 md:gap-2">
-                                  {project.deliverables.map((item, idx) => (
-                                    <span 
-                                      key={idx}
-                                      className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium md:px-3 md:py-1 md:text-xs"
-                                    >
-                                      {item}
-                                    </span>
-                                  ))}
-                                </div>
+                              <div className="flex items-center gap-1.5 text-xs md:gap-2">
+                                <User className="h-3.5 w-3.5 text-primary md:h-4 md:w-4" />
+                                <span className="text-muted-foreground">Client:</span>
+                                <span className="font-medium">{project.client}</span>
                               </div>
                             </div>
-                          </motion.div>
+                            
+                            {/* Deliverables */}
+                            <div className="mt-3 md:mt-4">
+                              <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Deliverables</p>
+                              <div className="mt-1.5 flex flex-wrap gap-1.5 md:mt-2 md:gap-2">
+                                {project.deliverables.map((item, idx) => (
+                                  <span 
+                                    key={idx}
+                                    className="rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium md:px-3 md:py-1 md:text-xs"
+                                  >
+                                    {item}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
                         )}
                       </AnimatePresence>
                     </motion.div>
