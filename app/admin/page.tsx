@@ -62,6 +62,7 @@ export default function AdminDashboard() {
   }, [editedContent, content])
 
   const handleSave = () => {
+    console.log("[v0] Saving projects with images:", editedContent.projects.map(p => ({ title: p.title, imageCount: p.images.filter(img => img).length })))
     updateContent(editedContent)
     setSaveMessage("Changes saved successfully!")
     setTimeout(() => setSaveMessage(""), 3000)

@@ -11,6 +11,7 @@ const navItems = ["Home", "About", "Work", "Contact"]
 
 export default function Portfolio() {
   const { content } = useContent()
+  console.log("[v0] Portfolio content loaded - Projects with images:", content.projects.map(p => ({ title: p.title, images: p.images.filter(img => img).length })))
   const [activeSection, setActiveSection] = useState("Home")
   const [expandedProject, setExpandedProject] = useState<number | null>(null)
   const [activeReview, setActiveReview] = useState(0)
@@ -218,7 +219,7 @@ export default function Portfolio() {
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {content.projects.slice(0, 3).map((project, i) => {
+                    {console.log("[v0] Recent Work projects:", content.projects.slice(0, 3).map(p => ({ title: p.title, firstImage: p.images?.[0] || p.thumbnail }))), content.projects.slice(0, 3).map((project, i) => {
                       const firstImage = project.images?.[0] || project.thumbnail
                       return (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
@@ -504,7 +505,7 @@ export default function Portfolio() {
               </motion.h2>
               
               <div className="mt-4 md:mt-6">
-                {content.projects.map((project, i) => {
+                {console.log("[v0] Work section projects:", content.projects.map(p => ({ title: p.title, firstImage: p.images?.[0] || p.thumbnail, allImages: p.images }))), content.projects.map((project, i) => {
                   const firstImage = project.images?.[0] || project.thumbnail
                   return (
                     <motion.div
@@ -616,7 +617,6 @@ export default function Portfolio() {
                             </div>
                           </div>
                         </motion.div>
-                      )}
                       </AnimatePresence>
                     </motion.div>
                   )
