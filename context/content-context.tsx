@@ -7,9 +7,11 @@ export interface Project {
   title: string
   category: string
   year: string
-  thumbnail: string
-  images: string[]
+  thumbnailImage: string
+  detailImageOne: string
+  detailImageTwo: string
   description: string
+  youtubeVideoUrl?: string
   timeline: string
   client: string
   deliverables: string[]
@@ -117,45 +119,14 @@ const defaultContent: PortfolioContent = {
       title: "Cybersecurity Campaign",
       category: "Branding",
       year: "2024",
-      thumbnail: "/projects/cyber.jpg",
-      images: ["/projects/cyber.jpg", "/projects/cyber-2.jpg", "/projects/cyber-3.jpg"],
+      thumbnailImage: "/projects/cyber.jpg",
+      detailImageOne: "",
+      detailImageTwo: "",
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
+      youtubeVideoUrl: "",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
       deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"],
-    },
-    {
-      title: "Peanut Wear",
-      category: "Apparel Design",
-      year: "2024",
-      thumbnail: "/projects/peanut.jpg",
-      images: ["/projects/peanut.jpg", "/projects/peanut-2.jpg"],
-      description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
-      timeline: "6 weeks",
-      client: "Peanut Wear Co.",
-      deliverables: ["Logo Design", "Apparel Graphics", "Packaging", "Lookbook"],
-    },
-    {
-      title: "Broadcast Graphics",
-      category: "Motion",
-      year: "2023",
-      thumbnail: "/projects/broadcast.jpg",
-      images: ["/projects/broadcast.jpg", "/projects/broadcast-2.jpg"],
-      description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
-      timeline: "12 weeks",
-      client: "National News Network",
-      deliverables: ["Lower Thirds", "Transitions", "Bumpers", "Full Rebrand Package"],
-    },
-    {
-      title: "SmartTap NFC",
-      category: "Digital Experience",
-      year: "2023",
-      thumbnail: "/projects/smarttap.jpg",
-      images: ["/projects/smarttap.jpg", "/projects/smarttap-2.jpg"],
-      description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
-      timeline: "10 weeks",
-      client: "SmartTap Technologies",
-      deliverables: ["App Design", "Brand Identity", "Marketing Website", "Pitch Deck"],
     },
   ],
   reviews: [
@@ -165,27 +136,6 @@ const defaultContent: PortfolioContent = {
       rating: 5,
       text: "Leon transformed our brand completely. His attention to detail and creative vision exceeded all expectations.",
       avatar: "SC",
-    },
-    {
-      name: "Marcus Thompson",
-      company: "Peanut Wear Co.",
-      rating: 5,
-      text: "Working with Leon was an absolute pleasure. He understood our vision and brought it to life beautifully.",
-      avatar: "MT",
-    },
-    {
-      name: "Emily Rodriguez",
-      company: "SmartTap Technologies",
-      rating: 5,
-      text: "Incredible talent and professionalism. Leon delivered beyond what we imagined possible.",
-      avatar: "ER",
-    },
-    {
-      name: "David Park",
-      company: "National News Network",
-      rating: 5,
-      text: "The motion graphics package Leon created elevated our entire broadcast presence. Truly exceptional work.",
-      avatar: "DP",
     },
   ],
   terms: {
@@ -237,6 +187,11 @@ const defaultContent: PortfolioContent = {
 
 // Storage key for localStorage
 const STORAGE_KEY = "portfolio-content"
+
+// Clear old localStorage on app init to ensure fresh data
+if (typeof window !== "undefined") {
+  localStorage.removeItem(STORAGE_KEY)
+}
 
 interface ContentContextType {
   content: PortfolioContent

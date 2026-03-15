@@ -28,6 +28,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { ImageUpload } from "@/components/image-upload"
 
 // Admin authentication check
 const ADMIN_PASSWORD = "Sianai4life@123"
@@ -167,9 +168,11 @@ export default function AdminDashboard() {
       title: "New Project",
       category: "Category",
       year: new Date().getFullYear().toString(),
-      thumbnail: "",
-      images: [],
+      thumbnailImage: "",
+      detailImageOne: "",
+      detailImageTwo: "",
       description: "Project description",
+      youtubeVideoUrl: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -332,8 +335,10 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="p-4 md:p-6">
-        <Tabs defaultValue="hero" className="w-full">
+      <main className="h-[calc(100vh-56px)] w-full overflow-hidden">
+        <ScrollArea className="h-full w-full">
+          <div className="p-4 md:p-6">
+            <Tabs defaultValue="hero" className="w-full">
           <TabsList className="mb-4 flex h-auto flex-wrap justify-start gap-1 bg-transparent p-0">
             <TabsTrigger value="hero" className="gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <User className="h-3 w-3" />
@@ -403,12 +408,19 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="profileImage" className="text-xs">Profile Image URL</Label>
+                  <Label htmlFor="profileImage" className="text-xs">Profile Image</Label>
+                  <ImageUpload
+                    category="hero"
+                    label="Profile Picture"
+                    currentImage={editedContent.hero.profileImage}
+                    onImageUpload={(path) => updateHero("profileImage", path)}
+                  />
                   <Input
                     id="profileImage"
                     value={editedContent.hero.profileImage}
                     onChange={(e) => updateHero("profileImage", e.target.value)}
                     className="h-9 text-sm"
+                    placeholder="Or paste URL..."
                   />
                 </div>
                 <div className="space-y-2">
@@ -657,13 +669,89 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs">Thumbnail URL</Label>
-                          <Input
-                            value={project.thumbnail}
-                            onChange={(e) => updateProject(index, "thumbnail", e.target.value)}
-                            className="h-8 text-sm"
+                          <Label className="text-xs font-semibold">Thumbnail Image (shown in Recent Work & Selected Work list)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Thumbnail Image"
+                            fieldName="thumbnail"
+                            currentImage={project.thumbnailImage}
+                            onImageUpload={(path) => updateProject(index, "thumbnailImage", path)}
                           />
+                          <Input
+                            value={project.thumbnailImage}
+                            onChange={(e) => updateProject(index, "thumbnailImage", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                          {project.thumbnailImage && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.thumbnailImage} 
+                                alt="Thumbnail preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">This is the main preview image shown in project cards.</p>
                         </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Detail Image One (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image One"
+                            fieldName="detail-one"
+                            currentImage={project.detailImageOne}
+                            onImageUpload={(path) => updateProject(index, "detailImageOne", path)}
+                          />
+                          <Input
+                            value={project.detailImageOne}
+                            onChange={(e) => updateProject(index, "detailImageOne", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                          {project.detailImageOne && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.detailImageOne} 
+                                alt="Detail image one preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">First image shown inside expanded project details.</p>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Detail Image Two (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image Two"
+                            fieldName="detail-two"
+                            currentImage={project.detailImageTwo}
+                            onImageUpload={(path) => updateProject(index, "detailImageTwo", path)}
+                          />
+                          <Input
+                            value={project.detailImageTwo}
+                            onChange={(e) => updateProject(index, "detailImageTwo", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                          {project.detailImageTwo && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.detailImageTwo} 
+                                alt="Detail image two preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">Second image shown inside expanded project details.</p>
+                        </div>
+
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Description</Label>
                           <Textarea
@@ -673,6 +761,18 @@ export default function AdminDashboard() {
                             className="text-sm"
                           />
                         </div>
+
+                        <div className="space-y-1.5 md:col-span-2">
+                          <Label className="text-xs">YouTube Video URL (optional)</Label>
+                          <Input
+                            value={project.youtubeVideoUrl || ""}
+                            onChange={(e) => updateProject(index, "youtubeVideoUrl", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="https://www.youtube.com/watch?v=..."
+                          />
+                          <p className="text-[10px] text-muted-foreground">Paste a YouTube URL to embed a video in the project details view.</p>
+                        </div>
+
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Deliverables (comma separated)</Label>
                           <Input
@@ -681,19 +781,7 @@ export default function AdminDashboard() {
                             className="h-8 text-sm"
                           />
                         </div>
-                        <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs">Image URLs (comma separated - first image is used as icon)</Label>
-                          <Textarea
-                            value={project.images.join(", ")}
-                            onChange={(e) => updateProject(index, "images", e.target.value.split(",").map(url => url.trim()).filter(d => d))}
-                            rows={2}
-                            placeholder="https://example.com/image1.jpg, https://drive.google.com/..., https://example.com/image3.jpg"
-                            className="text-sm"
-                          />
-                          <p className="text-[10px] text-muted-foreground">
-                            Supports any image URL including Google Drive (use direct links). Separate multiple URLs with commas.
-                          </p>
-                        </div>
+
                       </div>
                       <Button
                         variant="ghost"
@@ -896,6 +984,8 @@ export default function AdminDashboard() {
             </div>
           </TabsContent>
         </Tabs>
+          </div>
+        </ScrollArea>
       </main>
     </div>
   )

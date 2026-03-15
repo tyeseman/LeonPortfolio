@@ -26,8 +26,8 @@ export function BackgroundAnimation() {
         y: Math.random() * 100,
         size: Math.random() * 300 + 150,
         opacity: Math.random() * 0.03 + 0.02,
-        duration: Math.random() * 20 + 25,
-        delay: Math.random() * -20,
+        duration: Math.random() * 30 + 50,
+        delay: Math.random() * -50,
       }))
     }
     setParticles(generateParticles())

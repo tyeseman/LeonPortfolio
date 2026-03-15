@@ -15,6 +15,7 @@ export default function Portfolio() {
   const [expandedProject, setExpandedProject] = useState<number | null>(null)
   const [activeReview, setActiveReview] = useState(0)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   // Auto-loop reviews every 4 seconds
   useEffect(() => {
@@ -46,8 +47,9 @@ export default function Portfolio() {
           LCT
         </motion.div>
         
+        {/* Desktop Navigation */}
         <motion.div 
-          className="flex items-center gap-0.5 md:gap-1"
+          className="hidden items-center gap-0.5 md:flex md:gap-1"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
@@ -73,7 +75,22 @@ export default function Portfolio() {
             </button>
           ))}
         </motion.div>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden relative w-10 h-10 flex items-center justify-center"
+          aria-label="Toggle menu"
+        >
+          <div className="relative w-5 h-5">
+            <span className={`absolute h-0.5 w-5 bg-foreground transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1'}`} />
+            <span className={`absolute h-0.5 w-5 bg-foreground transition-all duration-300 top-2.5 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+            <span className={`absolute h-0.5 w-5 bg-foreground transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 top-2.5' : 'bottom-1'}`} />
+          </div>
+        </button>
       </nav>
+
+      {/* Mobile Menu Overlay */}
 
       {/* Main Content Area */}
       <AnimatePresence mode="wait">
@@ -84,23 +101,23 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full items-center justify-center px-4 md:px-8"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-20 md:overflow-hidden md:px-8 md:pb-0 md:pt-16"
           >
-            <div className="grid h-full w-full max-w-6xl grid-cols-12 gap-3 py-14 md:gap-4 md:py-16">
+            <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
               
-              {/* Left Column - Profile */}
-              <div className="col-span-12 flex flex-col justify-center md:col-span-4">
+              {/* Left Column - Profile (Full width on mobile, half on desktop) */}
+              <div className="flex flex-col justify-center md:col-span-4">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6 }}
-                  className="flex flex-col items-center text-center md:items-start md:text-left"
+                  className="flex flex-col items-center text-center md:items-start md:text-left mt-8 md:mt-0"
                 >
                   {/* Profile Picture - Creative circular design */}
-                  <div className="relative mb-3 md:mb-4">
-                    <div className="relative h-40 w-40 md:h-48 md:w-48">
+                  <div className="relative mb-3 flex justify-center md:mb-4 md:justify-start">
+                    <div className="relative h-32 w-32 md:h-48 md:w-48">
                       {/* Outer decorative ring */}
-                      <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '15s' }}>
+                      <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '40s' }}>
                         <circle 
                           cx="50%" 
                           cy="50%" 
@@ -155,30 +172,28 @@ export default function Portfolio() {
                 </motion.div>
               </div>
 
-              {/* Right Column - Grid of Cards */}
-              <div className="col-span-12 grid grid-cols-6 grid-rows-3 gap-2.5 md:col-span-8 md:gap-3">
+              {/* Right Column - Grid of Cards (Full width on mobile) */}
+              <div className="col-span-12 grid grid-cols-6 gap-2 md:col-span-8 md:grid-rows-3 md:gap-3">
                 
-                {/* Recent Work - spans 3 cols, 2 rows */}
+                {/* Recent Work - spans 6 cols on mobile, 3 cols 2 rows on desktop */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15, duration: 0.6 }}
                   onClick={() => setActiveSection("Work")}
-                  className="group col-span-3 row-span-2 cursor-pointer rounded-xl border border-border bg-card p-3 transition-all hover:border-primary/50 md:rounded-2xl md:p-4"
+                  className="group col-span-6 md:col-span-3 md:row-span-2 cursor-pointer rounded-lg border border-border bg-card p-2.5 transition-all hover:border-primary/50 md:rounded-2xl md:p-4"
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Recent Work</h3>
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {content.projects.slice(0, 3).map((project, i) => {
-                      const firstImage = project.images?.[0] || project.thumbnail
-                      return (
+                    {content.projects.slice(0, 3).map((project, i) => (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10">
-                            {firstImage && (
+                            {project.thumbnailImage && (
                               <img 
-                                src={firstImage} 
+                                src={project.thumbnailImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -191,17 +206,16 @@ export default function Portfolio() {
                             <p className="text-[10px] text-muted-foreground md:text-xs">{project.category}</p>
                           </div>
                         </div>
-                      )
-                    })}
+                      ))}
                   </div>
                 </motion.div>
 
-                {/* Expertise - spans 3 cols, 1 row */}
+                {/* Expertise - spans 6 cols on mobile, 3 cols 1 row on desktop */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.6 }}
-                  className="col-span-3 row-span-1 rounded-xl border border-border bg-card p-3 md:rounded-2xl md:p-4"
+                  className="col-span-6 md:col-span-3 md:row-span-1 rounded-lg border border-border bg-card p-2.5 md:rounded-2xl md:p-4"
                 >
                   <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Expertise</h3>
                   <div className="mt-1.5 flex flex-wrap gap-1 md:mt-2 md:gap-1.5">
@@ -213,12 +227,12 @@ export default function Portfolio() {
                   </div>
                 </motion.div>
 
-                {/* Software - spans 3 cols, 1 row */}
+                {/* Software - spans 6 cols on mobile, 3 cols 1 row on desktop */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25, duration: 0.6 }}
-                  className="col-span-3 row-span-1 rounded-xl border border-border bg-card p-3 md:rounded-2xl md:p-4"
+                  className="col-span-6 md:col-span-3 md:row-span-1 rounded-lg border border-border bg-card p-2.5 md:rounded-2xl md:p-4"
                 >
                   <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Software</h3>
                   <div className="mt-1.5 grid grid-cols-6 gap-1.5 md:mt-2 md:gap-2">
@@ -231,13 +245,13 @@ export default function Portfolio() {
                   </div>
                 </motion.div>
 
-                {/* Reviews - Auto-looping, spans 3 cols, 1 row */}
+                {/* Reviews - spans 6 cols on mobile, 3 cols 1 row on desktop */}
                 {content.reviews.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, duration: 0.6 }}
-                    className="col-span-3 row-span-1 rounded-xl border border-border bg-card p-3 md:rounded-2xl md:p-4"
+                    className="col-span-6 md:col-span-3 md:row-span-1 rounded-lg border border-border bg-card p-2.5 md:rounded-2xl md:p-4"
                   >
                     <div className="flex items-center justify-between">
                       <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Reviews</h3>
@@ -283,13 +297,13 @@ export default function Portfolio() {
                   </motion.div>
                 )}
 
-                {/* Experience - spans 6 cols (full width), 1 row */}
+                {/* Experience - spans full width */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.35, duration: 0.6 }}
                   onClick={() => setActiveSection("About")}
-                  className="group col-span-6 row-span-1 cursor-pointer rounded-xl border border-border bg-card p-3 transition-all hover:border-primary/50 md:rounded-2xl md:p-4"
+                  className="group col-span-6 md:col-span-6 md:row-span-1 cursor-pointer rounded-lg border border-border bg-card p-2.5 transition-all hover:border-primary/50 md:rounded-2xl md:p-4"
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:text-xs">Experience</h3>
@@ -317,7 +331,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col px-4 pt-14 pb-12 md:px-8 md:pt-16 md:pb-14"
+            className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-16"
           >
             <div className="mx-auto w-full max-w-5xl">
               {/* Static Header */}
@@ -325,14 +339,14 @@ export default function Portfolio() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.6 }}
-                className="font-display text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl"
+                className="font-display text-2xl font-bold tracking-tight md:text-4xl lg:text-5xl"
               >
                 About<span className="text-primary">.</span>
               </motion.h2>
             </div>
             
             {/* Scrollable Content */}
-            <div className="mt-4 flex-1 overflow-y-auto md:mt-6">
+            <div className="mt-4 flex-1 overflow-y-auto pb-16 md:mt-6 md:pb-20">
               <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
@@ -444,22 +458,20 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full items-start justify-center overflow-y-auto px-4 md:px-8"
+            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pt-16 md:pb-24 md:items-start md:justify-center"
           >
-            <div className="flex w-full max-w-5xl flex-col py-14 md:py-16">
+            <div className="flex w-full max-w-5xl flex-col">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.6 }}
-                className="font-display text-3xl font-bold tracking-tight md:text-4xl"
+                className="font-display text-2xl font-bold tracking-tight md:text-4xl"
               >
                 Selected Work<span className="text-primary">.</span>
               </motion.h2>
               
               <div className="mt-4 md:mt-6">
-                {content.projects.map((project, i) => {
-                  const firstImage = project.images?.[0] || project.thumbnail
-                  return (
+                {content.projects.map((project, i) => (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, y: 20 }}
@@ -476,9 +488,9 @@ export default function Portfolio() {
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-14 md:w-14 md:rounded-xl">
-                            {firstImage && (
+                            {project.thumbnailImage && (
                               <img 
-                                src={firstImage} 
+                                src={project.thumbnailImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -497,7 +509,6 @@ export default function Portfolio() {
                           expandedProject === i ? "rotate-180" : ""
                         }`} />
                       </button>
-                      
                       <AnimatePresence>
                         {expandedProject === i && (
                           <motion.div
@@ -507,34 +518,57 @@ export default function Portfolio() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-10 md:pl-16">
-                              {/* Project Images */}
-                              <div className="flex gap-2 overflow-x-auto pb-3 md:gap-3">
-                                {project.images && project.images.length > 0 ? (
-                                  project.images.map((imgUrl, imgIndex) => (
-                                    <div 
-                                      key={imgIndex} 
-                                      className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
-                                    >
-                                      <img 
-                                        src={imgUrl} 
-                                        alt={`${project.title} - Image ${imgIndex + 1}`}
-                                        className="h-full w-full object-cover"
-                                        crossOrigin="anonymous"
-                                        referrerPolicy="no-referrer"
-                                      />
-                                    </div>
-                                  ))
-                                ) : (
-                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl" />
-                                )}
-                              </div>
-                              
+                            <div className="pb-4 pl-10 md:pl-16 max-h-[calc(100vh-250px)] overflow-y-auto">
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
                             </p>
-                            
+
+                            {/* Detail Images */}
+                            {(project.detailImageOne || project.detailImageTwo) && (
+                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
+                                {project.detailImageOne && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.detailImageOne} 
+                                      alt={`${project.title} - Detail 1`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                                {project.detailImageTwo && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.detailImageTwo} 
+                                      alt={`${project.title} - Detail 2`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            {/* YouTube Video */}
+                            {project.youtubeVideoUrl && (
+                              <div className="mt-4 md:mt-6">
+                                <div className="max-w-2xl aspect-video overflow-hidden rounded-lg bg-black">
+                                  <iframe
+                                    width="100%"
+                                    height="100%"
+                                    src={`https://www.youtube.com/embed/${project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/) ? project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/)[1] : ''}`}
+                                    title={`${project.title} Video`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="h-full w-full"
+                                  />
+                                </div>
+                              </div>
+                            )}
+
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
                               <div className="flex items-center gap-1.5 text-xs md:gap-2">
@@ -565,11 +599,10 @@ export default function Portfolio() {
                             </div>
                           </div>
                         </motion.div>
-                      )}
+                        )}
                       </AnimatePresence>
                     </motion.div>
-                  )
-                })}
+                  ))}
               </div>
             </div>
           </motion.main>
@@ -582,14 +615,14 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full items-center justify-center px-4 md:px-8"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 py-20 pb-20 md:py-0 md:px-8 md:pb-24"
           >
-            <div className="flex h-full w-full max-w-3xl flex-col items-center justify-center text-center">
+            <div className="flex w-full max-w-3xl flex-col items-center justify-center text-center">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.6 }}
-                className="font-display text-3xl font-bold tracking-tight md:text-5xl lg:text-6xl"
+                className="font-display text-2xl font-bold tracking-tight md:text-5xl lg:text-6xl"
               >
                 Let's Create
                 <br />
@@ -643,7 +676,7 @@ export default function Portfolio() {
       </AnimatePresence>
 
       {/* Footer with Terms & Conditions */}
-      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
         <span>&copy; 2024 {content.hero.name}</span>
         <button 
           onClick={() => setIsTermsOpen(true)}
