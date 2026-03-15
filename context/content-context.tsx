@@ -9,6 +9,8 @@ export interface Project {
   year: string
   thumbnail: string
   description: string
+  descriptionImage1: string
+  descriptionImage2: string
   timeline: string
   client: string
   deliverables: string[]
@@ -118,6 +120,8 @@ const defaultContent: PortfolioContent = {
       year: "2024",
       thumbnail: "/projects/cyber.jpg",
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
+      descriptionImage1: "",
+      descriptionImage2: "",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
       deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"],
@@ -128,6 +132,8 @@ const defaultContent: PortfolioContent = {
       year: "2024",
       thumbnail: "/projects/peanut.jpg",
       description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
+      descriptionImage1: "",
+      descriptionImage2: "",
       timeline: "6 weeks",
       client: "Peanut Wear Co.",
       deliverables: ["Logo Design", "Apparel Graphics", "Packaging", "Lookbook"],
@@ -138,6 +144,8 @@ const defaultContent: PortfolioContent = {
       year: "2023",
       thumbnail: "/projects/broadcast.jpg",
       description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
+      descriptionImage1: "",
+      descriptionImage2: "",
       timeline: "12 weeks",
       client: "National News Network",
       deliverables: ["Lower Thirds", "Transitions", "Bumpers", "Full Rebrand Package"],
@@ -148,6 +156,8 @@ const defaultContent: PortfolioContent = {
       year: "2023",
       thumbnail: "/projects/smarttap.jpg",
       description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
+      descriptionImage1: "",
+      descriptionImage2: "",
       timeline: "10 weeks",
       client: "SmartTap Technologies",
       deliverables: ["App Design", "Brand Identity", "Marketing Website", "Pitch Deck"],

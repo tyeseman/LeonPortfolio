@@ -553,6 +553,34 @@ export default function Portfolio() {
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
                             </p>
+
+                            {/* Description Images */}
+                            {(project.descriptionImage1 || project.descriptionImage2) && (
+                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
+                                {project.descriptionImage1 && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.descriptionImage1} 
+                                      alt={`${project.title} - Image 1`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                                {project.descriptionImage2 && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.descriptionImage2} 
+                                      alt={`${project.title} - Image 2`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
                             
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">

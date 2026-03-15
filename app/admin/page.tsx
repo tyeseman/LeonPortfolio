@@ -170,6 +170,8 @@ export default function AdminDashboard() {
       year: new Date().getFullYear().toString(),
       thumbnail: "",
       description: "Project description",
+      descriptionImage1: "",
+      descriptionImage2: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -690,6 +692,40 @@ export default function AdminDashboard() {
                             className="text-sm"
                           />
                         </div>
+
+                        {/* Description Images */}
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Description Image 1</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Description Image 1"
+                            currentImage={project.descriptionImage1}
+                            onImageUpload={(path) => updateProject(index, "descriptionImage1", path)}
+                          />
+                          <Input
+                            value={project.descriptionImage1}
+                            onChange={(e) => updateProject(index, "descriptionImage1", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Description Image 2</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Description Image 2"
+                            currentImage={project.descriptionImage2}
+                            onImageUpload={(path) => updateProject(index, "descriptionImage2", path)}
+                          />
+                          <Input
+                            value={project.descriptionImage2}
+                            onChange={(e) => updateProject(index, "descriptionImage2", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                        </div>
+                        
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Deliverables (comma separated)</Label>
                           <Input
