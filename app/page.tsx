@@ -621,7 +621,7 @@ export default function Portfolio() {
                           </motion.div>
                         )}
                       </AnimatePresence>
-                    </div>
+                    </motion.div>
                   )
                 })}
               </div>
