@@ -32,6 +32,7 @@ export interface Review {
 export interface Software {
   name: string
   icon: string
+  iconImage?: string
 }
 
 export interface HeroContent {
