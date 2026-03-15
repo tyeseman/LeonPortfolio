@@ -170,6 +170,8 @@ export default function AdminDashboard() {
       year: new Date().getFullYear().toString(),
       thumbnail: "",
       description: "Project description",
+      image1: "",
+      image2: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -688,6 +690,39 @@ export default function AdminDashboard() {
                             onChange={(e) => updateProject(index, "description", e.target.value)}
                             rows={2}
                             className="text-sm"
+                          />
+                        </div>
+
+                        {/* Campaign Images */}
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Image 1</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Campaign Image 1"
+                            currentImage={project.image1}
+                            onImageUpload={(path) => updateProject(index, "image1", path)}
+                          />
+                          <Input
+                            value={project.image1}
+                            onChange={(e) => updateProject(index, "image1", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Image 2</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Campaign Image 2"
+                            currentImage={project.image2}
+                            onImageUpload={(path) => updateProject(index, "image2", path)}
+                          />
+                          <Input
+                            value={project.image2}
+                            onChange={(e) => updateProject(index, "image2", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
                           />
                         </div>
 
