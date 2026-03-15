@@ -667,7 +667,7 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs">Thumbnail</Label>
+                          <Label className="text-xs font-semibold">Thumbnail (shown in Recent Work & Selected Work list)</Label>
                           <ImageUpload
                             category="projects"
                             label="Project Thumbnail"
@@ -680,6 +680,7 @@ export default function AdminDashboard() {
                             className="h-8 text-sm"
                             placeholder="Or paste URL..."
                           />
+                          <p className="text-[10px] text-muted-foreground">This is the main preview image shown next to the project title.</p>
                         </div>
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Description</Label>
@@ -699,11 +700,11 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs font-semibold mb-2 block">Project Images (Image 1 used as icon next to title)</Label>
+                          <Label className="text-xs font-semibold mb-2 block">Project Gallery Images (displayed when project is expanded)</Label>
                           
                           {/* Image 1 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 1 (Main/Icon)</Label>
+                            <Label className="text-xs">Image 1</Label>
                             <ImageUpload
                               category="projects"
                               label="Image 1"
