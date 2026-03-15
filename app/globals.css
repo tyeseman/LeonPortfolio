@@ -190,6 +190,39 @@
   animation: lineExpand 1s ease-out forwards;
 }
 
+/* Scrollbar Styling */
+@layer utilities {
+  /* Webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--color-background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--color-border));
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--color-primary));
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-color: hsl(var(--color-border)) hsl(var(--color-background));
+    scrollbar-width: thin;
+  }
+
+  *:hover {
+    scrollbar-color: hsl(var(--color-primary)) hsl(var(--color-background));
+  }
+}
+
 /* Background animation keyframes */
 @keyframes float-0 {
   0%, 100% {

@@ -333,8 +333,10 @@ export default function AdminDashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="p-4 md:p-6">
-        <Tabs defaultValue="hero" className="w-full">
+      <main className="h-[calc(100vh-56px)] w-full overflow-hidden">
+        <ScrollArea className="h-full w-full">
+          <div className="p-4 md:p-6">
+            <Tabs defaultValue="hero" className="w-full">
           <TabsList className="mb-4 flex h-auto flex-wrap justify-start gap-1 bg-transparent p-0">
             <TabsTrigger value="hero" className="gap-1.5 rounded-full border border-border bg-card px-3 py-1.5 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <User className="h-3 w-3" />
@@ -1026,6 +1028,8 @@ export default function AdminDashboard() {
             </div>
           </TabsContent>
         </Tabs>
+          </div>
+        </ScrollArea>
       </main>
     </div>
   )
