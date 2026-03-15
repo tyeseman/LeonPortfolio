@@ -11,6 +11,7 @@ export interface Project {
   detailImageOne: string
   detailImageTwo: string
   description: string
+  youtubeVideoUrl?: string
   timeline: string
   client: string
   deliverables: string[]
@@ -122,6 +123,7 @@ const defaultContent: PortfolioContent = {
       detailImageOne: "",
       detailImageTwo: "",
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
+      youtubeVideoUrl: "",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
       deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"],

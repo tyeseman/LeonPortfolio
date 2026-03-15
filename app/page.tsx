@@ -582,6 +582,23 @@ export default function Portfolio() {
                               </div>
                             )}
 
+                            {/* YouTube Video */}
+                            {project.youtubeVideoUrl && (
+                              <div className="mt-4 md:mt-6">
+                                <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
+                                  <iframe
+                                    width="100%"
+                                    height="100%"
+                                    src={`https://www.youtube.com/embed/${project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/) ? project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/)[1] : ''}`}
+                                    title={`${project.title} Video`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="h-full w-full"
+                                  />
+                                </div>
+                              </div>
+                            )}
+
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
                               <div className="flex items-center gap-1.5 text-xs md:gap-2">

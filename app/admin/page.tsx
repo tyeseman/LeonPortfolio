@@ -172,6 +172,7 @@ export default function AdminDashboard() {
       detailImageOne: "",
       detailImageTwo: "",
       description: "Project description",
+      youtubeVideoUrl: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -759,6 +760,17 @@ export default function AdminDashboard() {
                             rows={2}
                             className="text-sm"
                           />
+                        </div>
+
+                        <div className="space-y-1.5 md:col-span-2">
+                          <Label className="text-xs">YouTube Video URL (optional)</Label>
+                          <Input
+                            value={project.youtubeVideoUrl || ""}
+                            onChange={(e) => updateProject(index, "youtubeVideoUrl", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="https://www.youtube.com/watch?v=..."
+                          />
+                          <p className="text-[10px] text-muted-foreground">Paste a YouTube URL to embed a video in the project details view.</p>
                         </div>
 
                         <div className="space-y-1.5 md:col-span-2">
