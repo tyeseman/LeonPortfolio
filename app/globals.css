@@ -174,25 +174,6 @@
   }
 }
 
-@keyframes floatSlow {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.08;
-  }
-  25% {
-    transform: translateY(-15px) rotate(90deg);
-    opacity: 0.12;
-  }
-  50% {
-    transform: translateY(-30px) rotate(180deg);
-    opacity: 0.08;
-  }
-  75% {
-    transform: translateY(-15px) rotate(270deg);
-    opacity: 0.12;
-  }
-}
-
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
 }
@@ -205,8 +186,8 @@
   animation: scaleIn 0.6s ease-out forwards;
 }
 
-.animate-float-slow {
-  animation: floatSlow 20s ease-in-out infinite;
+.animate-line-expand {
+  animation: lineExpand 1s ease-out forwards;
 }
 
 /* Background animation keyframes */

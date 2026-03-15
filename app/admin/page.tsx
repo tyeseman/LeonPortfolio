@@ -126,7 +126,7 @@ export default function AdminDashboard() {
     }))
   }
 
-  const updateSoftware = (index: number, field: keyof Software, value?: string) => {
+  const updateSoftware = (index: number, field: keyof Software, value: string) => {
     setEditedContent(prev => ({
       ...prev,
       software: prev.software.map((s, i) => i === index ? { ...s, [field]: value } : s)
@@ -697,43 +697,18 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs">Project Images</Label>
-                          <div className="space-y-2">
-                            <div className="flex flex-wrap gap-2">
-                              {project.images.map((img, imgIdx) => (
-                                <div key={imgIdx} className="relative h-16 w-16 overflow-hidden rounded border border-border bg-secondary">
-                                  <img src={img} alt={`Project ${imgIdx}`} className="h-full w-full object-cover" />
-                                  <Button
-                                    size="sm"
-                                    variant="ghost"
-                                    onClick={() => {
-                                      const newImages = project.images.filter((_, i) => i !== imgIdx)
-                                      updateProject(index, "images", newImages)
-                                    }}
-                                    className="absolute inset-0 h-full w-full opacity-0 hover:opacity-100 bg-black/50 rounded flex items-center justify-center text-white text-xs"
-                                  >
-                                    Remove
-                                  </Button>
-                                </div>
-                              ))}
-                            </div>
-                            <ImageUpload
-                              category="projects"
-                              label="Add Project Image"
-                              currentImage=""
-                              onImageUpload={(path) => updateProject(index, "images", [...project.images, path])}
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs">Or add image URLs (comma separated)</Label>
+                          <Label className="text-xs">Image URLs (comma separated - first image is used as icon)</Label>
                           <Textarea
                             value={project.images.join(", ")}
                             onChange={(e) => updateProject(index, "images", e.target.value.split(",").map(url => url.trim()).filter(d => d))}
                             rows={2}
-                            placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg"
+                            placeholder="https://example.com/image1.jpg, https://drive.google.com/..., https://example.com/image3.jpg"
                             className="text-sm"
                           />
+                          <p className="text-[10px] text-muted-foreground">
+                            Supports any image URL including Google Drive (use direct links). Separate multiple URLs with commas.
+                          </p>
+                        </div>
                       </div>
                       <Button
                         variant="ghost"
@@ -843,67 +818,28 @@ export default function AdminDashboard() {
               </div>
               <div className="space-y-3">
                 {editedContent.software.map((tool, index) => (
-                  <div key={index} className="rounded-lg border border-border bg-secondary/30 p-3">
-                    <div className="grid gap-3 md:grid-cols-2">
-                      <div className="space-y-1.5">
-                        <Label className="text-xs">Name</Label>
-                        <Input
-                          placeholder="e.g., Figma"
-                          value={tool.name}
-                          onChange={(e) => updateSoftware(index, "name", e.target.value)}
-                          className="h-8 text-sm"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <Label className="text-xs">Icon URL or Upload</Label>
-                        <div className="space-y-1.5">
-                          {tool.iconImage ? (
-                            <div className="relative h-12 w-12 overflow-hidden rounded bg-secondary">
-                              <img src={tool.iconImage} alt={tool.name} className="h-full w-full object-contain p-1" />
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => updateSoftware(index, "iconImage", undefined)}
-                                className="absolute inset-0 opacity-0 hover:opacity-100 bg-black/50 h-full w-full flex items-center justify-center text-white text-xs"
-                              >
-                                Clear
-                              </Button>
-                            </div>
-                          ) : (
-                            <ImageUpload
-                              category="software"
-                              label="Upload Icon"
-                              currentImage=""
-                              onImageUpload={(path) => {
-                                updateSoftware(index, "iconImage", path)
-                                updateSoftware(index, "icon", "")
-                              }}
-                            />
-                          )}
-                        </div>
-                      </div>
-                      <div className="space-y-1.5 md:col-span-2">
-                        <Label className="text-xs">Or Icon URL (if not using upload)</Label>
-                        <Input
-                          placeholder="https://..."
-                          value={tool.icon}
-                          onChange={(e) => {
-                            updateSoftware(index, "icon", e.target.value)
-                            if (e.target.value) updateSoftware(index, "iconImage", undefined)
-                          }}
-                          className="h-8 text-sm"
-                          disabled={!!tool.iconImage}
-                        />
-                      </div>
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="grid flex-1 gap-2 md:grid-cols-2">
+                      <Input
+                        placeholder="Name"
+                        value={tool.name}
+                        onChange={(e) => updateSoftware(index, "name", e.target.value)}
+                        className="h-9 text-sm"
+                      />
+                      <Input
+                        placeholder="Icon URL"
+                        value={tool.icon}
+                        onChange={(e) => updateSoftware(index, "icon", e.target.value)}
+                        className="h-9 text-sm"
+                      />
                     </div>
                     <Button
                       variant="ghost"
-                      size="sm"
+                      size="icon"
                       onClick={() => removeSoftware(index)}
-                      className="mt-2 h-7 gap-1 text-xs text-destructive hover:text-destructive"
+                      className="h-9 w-9 shrink-0 text-destructive hover:text-destructive"
                     >
-                      <Trash2 className="h-3 w-3" />
-                      Remove
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                 ))}

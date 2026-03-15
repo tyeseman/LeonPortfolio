@@ -131,17 +131,9 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="relative flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-24 md:overflow-hidden md:px-8 md:pb-0 md:pt-16"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-20 md:overflow-hidden md:px-8 md:pb-0 md:pt-16"
           >
-            {/* Elegant background animation elements */}
-            <div className="pointer-events-none absolute inset-0 overflow-hidden">
-              <div className="absolute top-1/4 left-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl animate-float-slow" style={{ animationDelay: '0s' }} />
-              <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-primary/4 blur-3xl animate-float-slow" style={{ animationDelay: '5s' }} />
-              <div className="absolute top-1/2 right-1/3 h-72 w-72 rounded-full bg-primary/3 blur-3xl animate-float-slow" style={{ animationDelay: '10s' }} />
-            </div>
-
-            {/* Content */}
-            <div className="relative z-10 flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
+            <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
               
               {/* Left Column - Profile (Full width on mobile, half on desktop) */}
               <div className="flex flex-col justify-center md:col-span-4">
@@ -279,7 +271,7 @@ export default function Portfolio() {
                   <div className="mt-1.5 grid grid-cols-6 gap-1.5 md:mt-2 md:gap-2">
                     {content.software.map((tool, i) => (
                       <div key={i} className="flex flex-col items-center gap-0.5 rounded-lg bg-secondary/50 p-1 transition-colors hover:bg-secondary md:gap-1 md:p-1.5">
-                        <img src={tool.iconImage || tool.icon} alt={tool.name} className="h-4 w-4 md:h-5 md:w-5 object-contain" />
+                        <img src={tool.icon} alt={tool.name} className="h-4 w-4 md:h-5 md:w-5" />
                         <span className="hidden text-[8px] text-muted-foreground md:block md:text-[9px]">{tool.name}</span>
                       </div>
                     ))}
@@ -618,8 +610,9 @@ export default function Portfolio() {
                                 ))}
                               </div>
                             </div>
-                          </motion.div>
-                        )}
+                          </div>
+                        </motion.div>
+                      )}
                       </AnimatePresence>
                     </motion.div>
                   )
