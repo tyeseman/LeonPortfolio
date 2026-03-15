@@ -838,9 +838,6 @@ export default function AdminDashboard() {
                                         src={image} 
                                         alt={`Project image ${imgIndex + 1}`}
                                         className="w-full h-full object-cover"
-                                        onError={(e) => {
-                                          e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3Ctext x='50' y='50' font-size='14' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3EImage {image.split('/').pop()?.substring(0,8) || imgIndex + 1}%3C/text%3E%3C/svg%3E"
-                                        }}
                                       />
                                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <span className="text-white text-xs font-medium">Image {imgIndex + 1}</span>
