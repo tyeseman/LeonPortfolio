@@ -186,3 +186,37 @@
 .animate-line-expand {
   animation: lineExpand 1s ease-out forwards;
 }
+
+/* Background animation keyframes */
+@keyframes float-0 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+@keyframes float-1 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-25px, 30px) scale(0.95);
+  }
+  66% {
+    transform: translate(25px, -15px) scale(1.05);
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(20px, 25px) scale(1.03);
+  }
+}
