@@ -773,6 +773,56 @@ export default function AdminDashboard() {
                               placeholder="Or paste URL..."
                             />
                           </div>
+
+                          {/* Image 4 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 4</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 4"
+                              currentImage={project.images[3]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[3] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[3] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[3] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
+
+                          {/* Image 5 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 5</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 5"
+                              currentImage={project.images[4]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[4] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[4] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[4] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
                         </div>
                       </div>
                       <Button

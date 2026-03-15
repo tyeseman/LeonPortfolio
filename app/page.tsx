@@ -629,7 +629,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 py-20 md:py-0 md:px-8"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 py-20 pb-20 md:py-0 md:px-8 md:pb-24"
           >
             <div className="flex w-full max-w-3xl flex-col items-center justify-center text-center">
               <motion.h2
