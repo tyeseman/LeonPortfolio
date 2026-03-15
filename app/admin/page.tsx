@@ -699,11 +699,11 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs font-semibold mb-2 block">Project Images (Displayed in expanded project view)</Label>
+                          <Label className="text-xs font-semibold mb-2 block">Project Images (Image 1 used as icon next to title)</Label>
                           
                           {/* Image 1 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 1</Label>
+                            <Label className="text-xs">Image 1 (Main/Icon)</Label>
                             <ImageUpload
                               category="projects"
                               label="Image 1"
