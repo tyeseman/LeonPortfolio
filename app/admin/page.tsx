@@ -708,6 +708,18 @@ export default function AdminDashboard() {
                             className="h-8 text-sm"
                             placeholder="Or paste URL..."
                           />
+                          {project.image1 && (
+                            <div className="h-20 w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5">
+                              <img 
+                                src={project.image1} 
+                                alt="Image 1 preview"
+                                className="h-full w-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E"
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
 
                         <div className="space-y-1.5">
@@ -724,6 +736,18 @@ export default function AdminDashboard() {
                             className="h-8 text-sm"
                             placeholder="Or paste URL..."
                           />
+                          {project.image2 && (
+                            <div className="h-20 w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5">
+                              <img 
+                                src={project.image2} 
+                                alt="Image 2 preview"
+                                className="h-full w-full object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E"
+                                }}
+                              />
+                            </div>
+                          )}
                         </div>
 
                         <div className="space-y-1.5 md:col-span-2">
