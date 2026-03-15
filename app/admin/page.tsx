@@ -170,8 +170,6 @@ export default function AdminDashboard() {
       year: new Date().getFullYear().toString(),
       thumbnail: "",
       description: "Project description",
-      image1: "",
-      image2: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -691,63 +689,6 @@ export default function AdminDashboard() {
                             rows={2}
                             className="text-sm"
                           />
-                        </div>
-
-                        {/* Campaign Images */}
-                        <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Image 1</Label>
-                          <ImageUpload
-                            category="projects"
-                            label="Campaign Image 1"
-                            currentImage={project.image1}
-                            onImageUpload={(path) => updateProject(index, "image1", path)}
-                          />
-                          <Input
-                            value={project.image1}
-                            onChange={(e) => updateProject(index, "image1", e.target.value)}
-                            className="h-8 text-sm"
-                            placeholder="Or paste URL..."
-                          />
-                          {project.image1 && (
-                            <div className="h-20 w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5">
-                              <img 
-                                src={project.image1} 
-                                alt="Image 1 preview"
-                                className="h-full w-full object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E"
-                                }}
-                              />
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Image 2</Label>
-                          <ImageUpload
-                            category="projects"
-                            label="Campaign Image 2"
-                            currentImage={project.image2}
-                            onImageUpload={(path) => updateProject(index, "image2", path)}
-                          />
-                          <Input
-                            value={project.image2}
-                            onChange={(e) => updateProject(index, "image2", e.target.value)}
-                            className="h-8 text-sm"
-                            placeholder="Or paste URL..."
-                          />
-                          {project.image2 && (
-                            <div className="h-20 w-full overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5">
-                              <img 
-                                src={project.image2} 
-                                alt="Image 2 preview"
-                                className="h-full w-full object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3C/svg%3E"
-                                }}
-                              />
-                            </div>
-                          )}
                         </div>
 
                         <div className="space-y-1.5 md:col-span-2">

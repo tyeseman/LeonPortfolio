@@ -554,34 +554,6 @@ export default function Portfolio() {
                               {project.description}
                             </p>
 
-                            {/* Campaign Images */}
-                            {(project.image1 || project.image2) && (
-                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
-                                {project.image1 && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.image1} 
-                                      alt={`${project.title} - Image 1`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                                {project.image2 && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.image2} 
-                                      alt={`${project.title} - Image 2`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
                               <div className="flex items-center gap-1.5 text-xs md:gap-2">

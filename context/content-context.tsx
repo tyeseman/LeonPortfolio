@@ -9,8 +9,6 @@ export interface Project {
   year: string
   thumbnail: string
   description: string
-  image1: string
-  image2: string
   timeline: string
   client: string
   deliverables: string[]
@@ -120,8 +118,6 @@ const defaultContent: PortfolioContent = {
       year: "2024",
       thumbnail: "/projects/cyber.jpg",
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
-      image1: "",
-      image2: "",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
       deliverables: ["Brand Identity", "Motion Graphics", "Digital Ads", "Social Media Kit"],
