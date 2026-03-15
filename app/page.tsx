@@ -141,13 +141,13 @@ export default function Portfolio() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6 }}
-                  className="flex flex-col items-center text-center md:items-start md:text-left"
+                  className="flex flex-col items-center text-center md:items-start md:text-left mt-8 md:mt-0"
                 >
                   {/* Profile Picture - Creative circular design */}
                   <div className="relative mb-3 flex justify-center md:mb-4 md:justify-start">
                     <div className="relative h-32 w-32 md:h-48 md:w-48">
                       {/* Outer decorative ring */}
-                      <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '15s' }}>
+                      <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '40s' }}>
                         <circle 
                           cx="50%" 
                           cy="50%" 
