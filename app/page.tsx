@@ -549,32 +549,6 @@ export default function Portfolio() {
                             className="overflow-hidden"
                           >
                             <div className="pb-4 pl-10 md:pl-16">
-                              {/* Project Images */}
-                              <div className="flex gap-2 overflow-x-auto pb-3 md:gap-3">
-                                {project.images && project.images.filter(img => img).length > 0 ? (
-                                  project.images.map((imgUrl, imgIndex) => (
-                                    imgUrl && (
-                                      <div 
-                                        key={imgIndex} 
-                                        className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
-                                      >
-                                        <img 
-                                          src={imgUrl} 
-                                          alt={`${project.title} - Image ${imgIndex + 1}`}
-                                          className="h-full w-full object-cover"
-                                          crossOrigin="anonymous"
-                                          referrerPolicy="no-referrer"
-                                        />
-                                      </div>
-                                    )
-                                  ))
-                                ) : (
-                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center md:h-32 md:w-48 md:rounded-xl">
-                                    <span className="text-[10px] text-muted-foreground">No images</span>
-                                  </div>
-                                )}
-                              </div>
-                              
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}

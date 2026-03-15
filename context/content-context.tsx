@@ -8,7 +8,6 @@ export interface Project {
   category: string
   year: string
   thumbnail: string
-  images: string[]
   description: string
   timeline: string
   client: string
@@ -118,7 +117,6 @@ const defaultContent: PortfolioContent = {
       category: "Branding",
       year: "2024",
       thumbnail: "/projects/cyber.jpg",
-      images: ["/projects/cyber.jpg", "/projects/cyber-2.jpg", "/projects/cyber-3.jpg", "/projects/cyber-4.jpg", "/projects/cyber-5.jpg"],
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
@@ -129,7 +127,6 @@ const defaultContent: PortfolioContent = {
       category: "Apparel Design",
       year: "2024",
       thumbnail: "/projects/peanut.jpg",
-      images: ["/projects/peanut.jpg", "/projects/peanut-2.jpg", "/projects/peanut-3.jpg", "/projects/peanut-4.jpg", "/projects/peanut-5.jpg"],
       description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
       timeline: "6 weeks",
       client: "Peanut Wear Co.",
@@ -140,7 +137,6 @@ const defaultContent: PortfolioContent = {
       category: "Motion",
       year: "2023",
       thumbnail: "/projects/broadcast.jpg",
-      images: ["/projects/broadcast.jpg", "/projects/broadcast-2.jpg", "/projects/broadcast-3.jpg", "/projects/broadcast-4.jpg", "/projects/broadcast-5.jpg"],
       description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
       timeline: "12 weeks",
       client: "National News Network",
@@ -151,7 +147,6 @@ const defaultContent: PortfolioContent = {
       category: "Digital Experience",
       year: "2023",
       thumbnail: "/projects/smarttap.jpg",
-      images: ["/projects/smarttap.jpg", "/projects/smarttap-2.jpg", "/projects/smarttap-3.jpg", "/projects/smarttap-4.jpg", "/projects/smarttap-5.jpg"],
       description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
       timeline: "10 weeks",
       client: "SmartTap Technologies",
@@ -162,7 +157,6 @@ const defaultContent: PortfolioContent = {
       category: "Apparel Design",
       year: "2024",
       thumbnail: "/projects/peanut.jpg",
-      images: ["/projects/peanut.jpg", "/projects/peanut-2.jpg", "/projects/peanut-3.jpg"],
       description: "Brand identity and apparel design for a streetwear brand targeting Gen-Z audiences. Created a playful yet sophisticated visual language.",
       timeline: "6 weeks",
       client: "Peanut Wear Co.",
@@ -173,7 +167,6 @@ const defaultContent: PortfolioContent = {
       category: "Motion",
       year: "2023",
       thumbnail: "/projects/broadcast.jpg",
-      images: ["/projects/broadcast.jpg", "/projects/broadcast-2.jpg", "/projects/broadcast-3.jpg"],
       description: "Dynamic motion graphics package for a national news network. Designed lower thirds, transitions, and animated elements.",
       timeline: "12 weeks",
       client: "National News Network",
@@ -184,7 +177,6 @@ const defaultContent: PortfolioContent = {
       category: "Digital Experience",
       year: "2023",
       thumbnail: "/projects/smarttap.jpg",
-      images: ["/projects/smarttap.jpg", "/projects/smarttap-2.jpg", "/projects/smarttap-3.jpg"],
       description: "UX/UI design and branding for an innovative NFC-based digital business card platform.",
       timeline: "10 weeks",
       client: "SmartTap Technologies",
