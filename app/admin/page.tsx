@@ -672,6 +672,7 @@ export default function AdminDashboard() {
                           <ImageUpload
                             category="projects"
                             label="Thumbnail Image"
+                            fieldName="thumbnail"
                             currentImage={project.thumbnailImage}
                             onImageUpload={(path) => updateProject(index, "thumbnailImage", path)}
                           />
@@ -699,6 +700,7 @@ export default function AdminDashboard() {
                           <ImageUpload
                             category="projects"
                             label="Detail Image One"
+                            fieldName="detail-one"
                             currentImage={project.detailImageOne}
                             onImageUpload={(path) => updateProject(index, "detailImageOne", path)}
                           />
@@ -726,6 +728,7 @@ export default function AdminDashboard() {
                           <ImageUpload
                             category="projects"
                             label="Detail Image Two"
+                            fieldName="detail-two"
                             currentImage={project.detailImageTwo}
                             onImageUpload={(path) => updateProject(index, "detailImageTwo", path)}
                           />

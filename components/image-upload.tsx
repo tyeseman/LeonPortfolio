@@ -8,9 +8,10 @@ interface ImageUploadProps {
   currentImage?: string
   category: string
   label?: string
+  fieldName?: string
 }
 
-export function ImageUpload({ onImageUpload, currentImage, category, label = "Upload Image" }: ImageUploadProps) {
+export function ImageUpload({ onImageUpload, currentImage, category, label = "Upload Image", fieldName }: ImageUploadProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [error, setError] = useState("")
   const [success, setSuccess] = useState(false)
@@ -65,9 +66,9 @@ export function ImageUpload({ onImageUpload, currentImage, category, label = "Up
           onChange={handleFileChange}
           disabled={isUploading}
           className="hidden"
-          id={`upload-${category}`}
+          id={`upload-${category}${fieldName ? `-${fieldName}` : ''}`}
         />
-        <label htmlFor={`upload-${category}`} className="block">
+        <label htmlFor={`upload-${category}${fieldName ? `-${fieldName}` : ''}`} className="block">
           <Button
             type="button"
             variant="outline"
