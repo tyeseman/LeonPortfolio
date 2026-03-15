@@ -221,9 +221,9 @@ export default function Portfolio() {
                     {content.projects.slice(0, 3).map((project, i) => (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10">
-                            {project.thumbnail && (
+                            {project.thumbnailImage && (
                               <img 
-                                src={project.thumbnail} 
+                                src={project.thumbnailImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -518,9 +518,9 @@ export default function Portfolio() {
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-14 md:w-14 md:rounded-xl">
-                            {project.thumbnail && (
+                            {project.thumbnailImage && (
                               <img 
-                                src={project.thumbnail} 
+                                src={project.thumbnailImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -553,6 +553,34 @@ export default function Portfolio() {
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
                             </p>
+
+                            {/* Detail Images */}
+                            {(project.detailImageOne || project.detailImageTwo) && (
+                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
+                                {project.detailImageOne && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.detailImageOne} 
+                                      alt={`${project.title} - Detail 1`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                                {project.detailImageTwo && (
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                    <img 
+                                      src={project.detailImageTwo} 
+                                      alt={`${project.title} - Detail 2`}
+                                      className="h-full w-full object-cover"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">

@@ -168,7 +168,9 @@ export default function AdminDashboard() {
       title: "New Project",
       category: "Category",
       year: new Date().getFullYear().toString(),
-      thumbnail: "",
+      thumbnailImage: "",
+      detailImageOne: "",
+      detailImageTwo: "",
       description: "Project description",
       timeline: "X weeks",
       client: "Client Name",
@@ -666,21 +668,86 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Thumbnail (shown in Recent Work & Selected Work list)</Label>
+                          <Label className="text-xs font-semibold">Thumbnail Image (shown in Recent Work & Selected Work list)</Label>
                           <ImageUpload
                             category="projects"
-                            label="Project Thumbnail"
-                            currentImage={project.thumbnail}
-                            onImageUpload={(path) => updateProject(index, "thumbnail", path)}
+                            label="Thumbnail Image"
+                            currentImage={project.thumbnailImage}
+                            onImageUpload={(path) => updateProject(index, "thumbnailImage", path)}
                           />
                           <Input
-                            value={project.thumbnail}
-                            onChange={(e) => updateProject(index, "thumbnail", e.target.value)}
+                            value={project.thumbnailImage}
+                            onChange={(e) => updateProject(index, "thumbnailImage", e.target.value)}
                             className="h-8 text-sm"
                             placeholder="Or paste URL..."
                           />
-                          <p className="text-[10px] text-muted-foreground">This is the main preview image shown next to the project title.</p>
+                          {project.thumbnailImage && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.thumbnailImage} 
+                                alt="Thumbnail preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">This is the main preview image shown in project cards.</p>
                         </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Detail Image One (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image One"
+                            currentImage={project.detailImageOne}
+                            onImageUpload={(path) => updateProject(index, "detailImageOne", path)}
+                          />
+                          <Input
+                            value={project.detailImageOne}
+                            onChange={(e) => updateProject(index, "detailImageOne", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                          {project.detailImageOne && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.detailImageOne} 
+                                alt="Detail image one preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">First image shown inside expanded project details.</p>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <Label className="text-xs font-semibold">Detail Image Two (shown in expanded project view)</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Detail Image Two"
+                            currentImage={project.detailImageTwo}
+                            onImageUpload={(path) => updateProject(index, "detailImageTwo", path)}
+                          />
+                          <Input
+                            value={project.detailImageTwo}
+                            onChange={(e) => updateProject(index, "detailImageTwo", e.target.value)}
+                            className="h-8 text-sm"
+                            placeholder="Or paste URL..."
+                          />
+                          {project.detailImageTwo && (
+                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
+                              <img 
+                                src={project.detailImageTwo} 
+                                alt="Detail image two preview"
+                                className="h-full w-full object-cover"
+                                crossOrigin="anonymous"
+                              />
+                            </div>
+                          )}
+                          <p className="text-[10px] text-muted-foreground">Second image shown inside expanded project details.</p>
+                        </div>
+
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Description</Label>
                           <Textarea

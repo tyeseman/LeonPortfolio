@@ -7,7 +7,9 @@ export interface Project {
   title: string
   category: string
   year: string
-  thumbnail: string
+  thumbnailImage: string
+  detailImageOne: string
+  detailImageTwo: string
   description: string
   timeline: string
   client: string
@@ -116,7 +118,9 @@ const defaultContent: PortfolioContent = {
       title: "Cybersecurity Campaign",
       category: "Branding",
       year: "2024",
-      thumbnail: "/projects/cyber.jpg",
+      thumbnailImage: "/projects/cyber.jpg",
+      detailImageOne: "",
+      detailImageTwo: "",
       description: "A comprehensive brand identity and awareness campaign for a leading cybersecurity firm. The project included visual identity, motion graphics, and digital assets that communicate trust and protection.",
       timeline: "8 weeks",
       client: "SecureNet Inc.",
