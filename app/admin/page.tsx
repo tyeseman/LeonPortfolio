@@ -62,7 +62,6 @@ export default function AdminDashboard() {
   }, [editedContent, content])
 
   const handleSave = () => {
-    console.log("[v0] Saving content with projects:", editedContent.projects.map(p => ({ title: p.title, images: p.images })))
     updateContent(editedContent)
     setSaveMessage("Changes saved successfully!")
     setTimeout(() => setSaveMessage(""), 3000)
@@ -826,6 +825,33 @@ export default function AdminDashboard() {
                               placeholder="Or paste URL..."
                             />
                           </div>
+
+                          {/* Uploaded Images Gallery */}
+                          {project.images.some(img => img) && (
+                            <div className="mt-3 rounded-lg border border-primary/20 bg-primary/5 p-3">
+                              <Label className="text-xs font-semibold mb-2 block">Uploaded Images Preview</Label>
+                              <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+                                {project.images.map((image, imgIndex) => (
+                                  image && (
+                                    <div key={imgIndex} className="relative group rounded-lg overflow-hidden border border-border bg-secondary/50 aspect-square">
+                                      <img 
+                                        src={image} 
+                                        alt={`Project image ${imgIndex + 1}`}
+                                        className="w-full h-full object-cover"
+                                        onError={(e) => {
+                                          e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23333' width='100' height='100'/%3E%3Ctext x='50' y='50' font-size='14' fill='%23999' text-anchor='middle' dominant-baseline='middle'%3EImage {image.split('/').pop()?.substring(0,8) || imgIndex + 1}%3C/text%3E%3C/svg%3E"
+                                        }}
+                                      />
+                                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <span className="text-white text-xs font-medium">Image {imgIndex + 1}</span>
+                                      </div>
+                                    </div>
+                                  )
+                                ))}
+                              </div>
+                              <p className="text-[10px] text-muted-foreground mt-2">{project.images.filter(img => img).length} image(s) uploaded</p>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <Button

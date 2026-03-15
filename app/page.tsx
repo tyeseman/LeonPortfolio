@@ -11,7 +11,6 @@ const navItems = ["Home", "About", "Work", "Contact"]
 
 export default function Portfolio() {
   const { content } = useContent()
-  console.log("[v0] Portfolio loaded with projects:", content.projects.map(p => ({ title: p.title, imageCount: p.images.length })))
   const [activeSection, setActiveSection] = useState("Home")
   const [expandedProject, setExpandedProject] = useState<number | null>(null)
   const [activeReview, setActiveReview] = useState(0)
@@ -558,23 +557,27 @@ export default function Portfolio() {
                             <div className="pb-4 pl-10 md:pl-16">
                               {/* Project Images */}
                               <div className="flex gap-2 overflow-x-auto pb-3 md:gap-3">
-                                {project.images && project.images.length > 0 ? (
+                                {project.images && project.images.filter(img => img).length > 0 ? (
                                   project.images.map((imgUrl, imgIndex) => (
-                                    <div 
-                                      key={imgIndex} 
-                                      className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
-                                    >
-                                      <img 
-                                        src={imgUrl} 
-                                        alt={`${project.title} - Image ${imgIndex + 1}`}
-                                        className="h-full w-full object-cover"
-                                        crossOrigin="anonymous"
-                                        referrerPolicy="no-referrer"
-                                      />
-                                    </div>
+                                    imgUrl && (
+                                      <div 
+                                        key={imgIndex} 
+                                        className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
+                                      >
+                                        <img 
+                                          src={imgUrl} 
+                                          alt={`${project.title} - Image ${imgIndex + 1}`}
+                                          className="h-full w-full object-cover"
+                                          crossOrigin="anonymous"
+                                          referrerPolicy="no-referrer"
+                                        />
+                                      </div>
+                                    )
                                   ))
                                 ) : (
-                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl" />
+                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center md:h-32 md:w-48 md:rounded-xl">
+                                    <span className="text-[10px] text-muted-foreground">No images</span>
+                                  </div>
                                 )}
                               </div>
                               
