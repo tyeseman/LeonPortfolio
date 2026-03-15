@@ -28,6 +28,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { ImageUpload } from "@/components/image-upload"
 
 // Admin authentication check
 const ADMIN_PASSWORD = "Sianai4life@123"
@@ -403,12 +404,19 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="profileImage" className="text-xs">Profile Image URL</Label>
+                  <Label htmlFor="profileImage" className="text-xs">Profile Image</Label>
+                  <ImageUpload
+                    category="hero"
+                    label="Profile Picture"
+                    currentImage={editedContent.hero.profileImage}
+                    onImageUpload={(path) => updateHero("profileImage", path)}
+                  />
                   <Input
                     id="profileImage"
                     value={editedContent.hero.profileImage}
                     onChange={(e) => updateHero("profileImage", e.target.value)}
                     className="h-9 text-sm"
+                    placeholder="Or paste URL..."
                   />
                 </div>
                 <div className="space-y-2">
@@ -657,11 +665,18 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs">Thumbnail URL</Label>
+                          <Label className="text-xs">Thumbnail</Label>
+                          <ImageUpload
+                            category="projects"
+                            label="Project Thumbnail"
+                            currentImage={project.thumbnail}
+                            onImageUpload={(path) => updateProject(index, "thumbnail", path)}
+                          />
                           <Input
                             value={project.thumbnail}
                             onChange={(e) => updateProject(index, "thumbnail", e.target.value)}
                             className="h-8 text-sm"
+                            placeholder="Or paste URL..."
                           />
                         </div>
                         <div className="space-y-1.5 md:col-span-2">

@@ -379,7 +379,7 @@ export default function Portfolio() {
             </div>
             
             {/* Scrollable Content */}
-            <div className="mt-4 flex-1 overflow-y-auto pb-6 md:mt-6 md:pb-8">
+            <div className="mt-4 flex-1 overflow-y-auto pb-16 md:mt-6 md:pb-20">
               <div className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 md:gap-8">
                 <motion.div
                   initial={{ opacity: 0, x: -30 }}
@@ -491,7 +491,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-12 md:px-8 md:pt-16 md:pb-0 md:items-start md:justify-center"
+            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pt-16 md:pb-24 md:items-start md:justify-center"
           >
             <div className="flex w-full max-w-5xl flex-col">
               <motion.h2
@@ -690,7 +690,7 @@ export default function Portfolio() {
       </AnimatePresence>
 
       {/* Footer with Terms & Conditions */}
-      <div className="fixed bottom-0 left-0 right-0 flex items-center justify-between px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
         <span>&copy; 2024 {content.hero.name}</span>
         <button 
           onClick={() => setIsTermsOpen(true)}
