@@ -11,6 +11,7 @@ const navItems = ["Home", "About", "Work", "Contact"]
 
 export default function Portfolio() {
   const { content } = useContent()
+  console.log("[v0] Portfolio loaded with projects:", content.projects.map(p => ({ title: p.title, imageCount: p.images.length })))
   const [activeSection, setActiveSection] = useState("Home")
   const [expandedProject, setExpandedProject] = useState<number | null>(null)
   const [activeReview, setActiveReview] = useState(0)
