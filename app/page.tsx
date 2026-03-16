@@ -35,11 +35,16 @@ export default function Portfolio() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
+      {/* Skip to main content link for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md">
+        Skip to main content
+      </a>
+      
       {/* Subtle Background Animation */}
       <BackgroundAnimation />
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 bg-background/95 backdrop-blur border-b border-border/50" role="navigation" aria-label="Main navigation">
         <motion.div 
           className="font-display text-base font-bold tracking-tight md:text-lg"
           initial={{ opacity: 0, x: -20 }}
@@ -65,6 +70,7 @@ export default function Portfolio() {
                   ? "text-primary" 
                   : "text-muted-foreground hover:text-foreground"
               }`}
+              aria-current={activeSection === item ? "page" : undefined}
             >
               {item}
               {activeSection === item && (
@@ -82,7 +88,9 @@ export default function Portfolio() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden relative w-10 h-10 flex items-center justify-center"
-          aria-label="Toggle menu"
+          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={isMobileMenuOpen}
+          aria-controls="mobile-menu"
         >
           <div className="relative w-5 h-5">
             <span className={`absolute h-0.5 w-5 bg-foreground transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1'}`} />
@@ -114,6 +122,9 @@ export default function Portfolio() {
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
             className="fixed top-16 left-0 right-0 z-50 bg-background border-b border-border md:hidden"
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Mobile navigation"
           >
             <div className="flex flex-col gap-1 px-4 py-4">
               {navItems.map((item) => (
@@ -141,6 +152,7 @@ export default function Portfolio() {
       <AnimatePresence mode="wait">
         {activeSection === "Home" && (
           <motion.main
+            id="main-content"
             key="home"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -202,14 +214,14 @@ export default function Portfolio() {
                   <div className="mt-3 flex gap-2 md:mt-4">
                     <button 
                       onClick={() => setActiveSection("Work")}
-                      className="group flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-all hover:gap-2 md:px-4 md:py-2"
+                      className="group flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-all hover:gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary md:px-4 md:py-2"
                     >
                       View Work
                       <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     </button>
                     <button 
                       onClick={() => setActiveSection("Contact")}
-                      className="rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-secondary md:px-4 md:py-2"
+                      className="rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary md:px-4 md:py-2"
                     >
                       Contact
                     </button>
@@ -371,6 +383,7 @@ export default function Portfolio() {
 
         {activeSection === "About" && (
           <motion.main
+            id="main-content"
             key="about"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -498,6 +511,7 @@ export default function Portfolio() {
 
         {activeSection === "Work" && (
           <motion.main
+            id="main-content"
             key="work"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -575,8 +589,8 @@ export default function Portfolio() {
                                 {project.detailImageOne && (
                                   <button
                                     onClick={() => setLightboxImage(project.detailImageOne)}
-                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity"
-                                    aria-label="Enlarge image"
+                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary"
+                                    aria-label={`Enlarge ${project.title} detail image 1`}
                                   >
                                     <img 
                                       src={project.detailImageOne} 
@@ -590,8 +604,8 @@ export default function Portfolio() {
                                 {project.detailImageTwo && (
                                   <button
                                     onClick={() => setLightboxImage(project.detailImageTwo)}
-                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity"
-                                    aria-label="Enlarge image"
+                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary"
+                                    aria-label={`Enlarge ${project.title} detail image 2`}
                                   >
                                     <img 
                                       src={project.detailImageTwo} 
@@ -663,6 +677,7 @@ export default function Portfolio() {
 
         {activeSection === "Contact" && (
           <motion.main
+            id="main-content"
             key="contact"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -710,15 +725,15 @@ export default function Portfolio() {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="mt-6 flex items-center gap-4 md:mt-8 md:gap-6"
               >
-                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit LinkedIn profile">
                   <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">LinkedIn</span>
                 </a>
-                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Instagram profile">
                   <Instagram className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Instagram</span>
                 </a>
-                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Twitter profile">
                   <X className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Twitter</span>
                 </a>
@@ -729,16 +744,17 @@ export default function Portfolio() {
       </AnimatePresence>
 
       {/* Footer with Terms & Conditions */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
+      <footer className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs" role="contentinfo">
         <span>&copy; 2024 {content.hero.name}</span>
         <button 
           onClick={() => setIsTermsOpen(true)}
-          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline"
+          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded px-1"
+          aria-label="Open terms and conditions"
         >
           Terms & Conditions
         </button>
         <span>{content.hero.title.split("&")[0].trim()}</span>
-      </div>
+      </footer>
 
       {/* Terms & Conditions Dialog */}
       <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
