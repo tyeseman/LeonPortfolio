@@ -149,45 +149,162 @@ export default function Portfolio() {
             className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-16"
           >
             <div className="flex-1 overflow-y-auto pb-16 md:pb-20">
-              <div className="flex w-full flex-col items-center justify-center min-h-full py-8 md:py-0 md:justify-center">
-            <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
-              
-              {/* Left Column - Profile (Full width on mobile, half on desktop) */}
-              <div className="flex flex-col justify-center md:col-span-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1, duration: 0.6 }}
-                  className="flex flex-col items-center text-center md:items-start md:text-left mt-8 md:mt-0"
-                >
-                  {/* Profile Picture - Creative circular design */}
-                  <div className="relative mb-3 flex justify-center md:mb-4 md:justify-start">
-                    <div className="relative h-32 w-32 md:h-48 md:w-48">
-                      {/* Outer decorative ring */}
-                      <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '40s' }}>
-                        <circle 
-                          cx="50%" 
-                          cy="50%" 
-                          r="48%" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="1" 
-                          strokeDasharray="4 6"
-                          className="text-primary/40"
-                        />
-                      </svg>
-                      {/* Inner image container */}
-                      <div className="absolute inset-2 overflow-hidden rounded-full ring-2 ring-primary/60">
-                        <img 
-                          src={content.hero.profileImage} 
-                          alt={content.hero.name}
-                          className="h-full w-full object-cover object-top"
-                        />
+              <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4 mx-auto">
+                
+                {/* Left Column - Profile (Full width on mobile, 4 cols on desktop) */}
+                <div className="flex flex-col justify-center md:col-span-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1, duration: 0.6 }}
+                    className="flex flex-col items-center text-center md:items-start md:text-left"
+                  >
+                    {/* Profile Picture - Creative circular design */}
+                    <div className="relative mb-3 flex justify-center md:mb-4 md:justify-start">
+                      <div className="relative h-32 w-32 md:h-48 md:w-48">
+                        {/* Outer decorative ring */}
+                        <svg className="absolute inset-0 h-full w-full animate-spin" style={{ animationDuration: '40s' }}>
+                          <circle 
+                            cx="50%" 
+                            cy="50%" 
+                            r="48%" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="1" 
+                            strokeDasharray="4 6"
+                            className="text-primary/40"
+                          />
+                        </svg>
+                        {/* Inner image container */}
+                        <div className="absolute inset-2 overflow-hidden rounded-full ring-2 ring-primary/60">
+                          <img 
+                            src={content.hero.profileImage} 
+                            alt={content.hero.name}
+                            className="h-full w-full object-cover object-top"
+                          />
+                        </div>
+                        {/* Status indicator */}
+                        <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-background bg-emerald-500 md:h-6 md:w-6" />
                       </div>
-                      {/* Status indicator */}
-                      <div className="absolute bottom-1 right-1 h-5 w-5 rounded-full border-2 border-background bg-emerald-500 md:h-6 md:w-6" />
+                    </div>
+
+                    {/* Name */}
+                    <div className="mt-2 md:mt-3">
+                      <h1 className="font-display text-3xl font-bold tracking-tighter md:text-5xl">
+                        {firstName}
+                      </h1>
+                      <h1 className="font-display text-3xl font-bold tracking-tighter text-primary md:text-5xl">
+                        {lastName}
+                      </h1>
+                    </div>
+
+                    {/* Title */}
+                    <p className="mt-1 text-xs text-muted-foreground md:mt-2 md:text-sm">
+                      {content.hero.title}
+                    </p>
+
+                    {/* CTA Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setActiveSection("Contact")}
+                      className="mt-3 flex items-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 md:mt-4 md:px-6 md:py-3 md:text-sm"
+                    >
+                      Let&apos;s talk <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4" />
+                    </motion.button>
+
+                    {/* Social Links */}
+                    <div className="mt-4 flex gap-2 md:gap-3">
+                      {content.hero.socialLinks.email && (
+                        <a href={`mailto:${content.hero.socialLinks.email}`} className="rounded-full bg-secondary p-2 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-2.5">
+                          <Mail className="h-4 w-4 md:h-5 md:w-5" />
+                        </a>
+                      )}
+                      {content.hero.socialLinks.linkedin && (
+                        <a href={content.hero.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-2 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-2.5">
+                          <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
+                        </a>
+                      )}
+                      {content.hero.socialLinks.instagram && (
+                        <a href={content.hero.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-2 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-2.5">
+                          <Instagram className="h-4 w-4 md:h-5 md:w-5" />
+                        </a>
+                      )}
+                      {content.hero.socialLinks.twitter && (
+                        <a href={content.hero.socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-2 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-2.5">
+                          <X className="h-4 w-4 md:h-5 md:w-5" />
+                        </a>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Right Column - Cards Grid */}
+                <div className="flex flex-col gap-3 md:col-span-8 md:gap-4">
+                  {/* Bio Cards */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.15, duration: 0.6 }}
+                    className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 md:row-span-2"
+                  >
+                    {/* Bio Card 1 */}
+                    <div className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground md:text-sm">About Me</h3>
+                      <p className="mt-2 text-xs leading-relaxed text-foreground/80 md:mt-3 md:text-sm">
+                        {content.hero.bio}
+                      </p>
+                    </div>
+
+                    {/* Bio Card 2 */}
+                    <div className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5">
+                      <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground md:text-sm">Expertise</h3>
+                      <p className="mt-2 text-xs leading-relaxed text-foreground/80 md:mt-3 md:text-sm">
+                        {content.hero.expertise}
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  {/* Skills Grid */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                    className="rounded-xl border border-border bg-card p-4 md:rounded-2xl md:p-5"
+                  >
+                    <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground md:text-sm">Skills</h3>
+                    <div className="mt-3 flex flex-wrap gap-2 md:mt-3 md:gap-2.5">
+                      {content.hero.skills.map((skill) => (
+                        <span 
+                          key={skill} 
+                          className="rounded-full bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary md:px-4 md:py-2 md:text-sm"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* CTA Card */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setActiveSection("Work")}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.25, duration: 0.6 }}
+                    className="group rounded-xl border border-border bg-gradient-to-br from-primary/20 to-primary/5 p-4 transition-all hover:border-primary/50 hover:from-primary/30 hover:to-primary/10 md:rounded-2xl md:p-5"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="text-left">
+                        <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground group-hover:text-primary md:text-sm">Explore My Work</h3>
+                        <p className="mt-1 text-xs text-foreground/70 group-hover:text-foreground md:mt-2 md:text-sm">See my latest projects</p>
+                      </div>
+                      <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1 md:h-6 md:w-6" />
+                    </div>
+                  </motion.button>
+                </div>
               </div>
-            </div>
             </div>
           </motion.main>
         )}
@@ -326,9 +443,9 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pt-16 md:pb-24 md:items-start md:justify-center"
+            className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-16"
           >
-            <div className="flex w-full max-w-5xl flex-col">
+            <div className="mx-auto w-full max-w-5xl">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -337,8 +454,11 @@ export default function Portfolio() {
               >
                 Selected Work<span className="text-primary">.</span>
               </motion.h2>
-              
-              <div className="mt-4 md:mt-6">
+            </div>
+            
+            {/* Scrollable Projects */}
+            <div className="mt-4 flex-1 overflow-y-auto pb-16 md:mt-6 md:pb-20">
+              <div className="mx-auto w-full max-w-5xl">
                 {content.projects.map((project, i) => (
                     <motion.div
                       key={i}
@@ -386,7 +506,7 @@ export default function Portfolio() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-10 md:pl-16 max-h-[calc(100vh-250px)] overflow-y-auto">
+                            <div className="pb-4 pl-10 md:pl-16">
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
@@ -491,77 +611,77 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 py-20 pb-20 md:py-0 md:px-8 md:pb-24"
+            className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-16"
           >
-            <div className="flex w-full max-w-3xl flex-col items-center justify-center text-center">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1, duration: 0.6 }}
-                className="font-display text-2xl font-bold tracking-tight md:text-5xl lg:text-6xl"
-              >
-                Let's Create
-                <br />
-                <span className="text-primary">Together</span>
-              </motion.h2>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="mt-4 max-w-md text-sm text-muted-foreground md:mt-6 md:text-base"
-              >
-                Have a project in mind? I'd love to hear about it. 
-                Let's discuss how we can bring your vision to life.
-              </motion.p>
+            <div className="flex-1 overflow-y-auto pb-16 md:pb-20">
+              <div className="mx-auto flex w-full max-w-3xl flex-col items-center justify-center text-center">
+                <motion.h2
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1, duration: 0.6 }}
+                  className="font-display text-2xl font-bold tracking-tight md:text-4xl"
+                >
+                  Let&apos;s Connect<span className="text-primary">.</span>
+                </motion.h2>
+                
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.15, duration: 0.6 }}
+                  className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:mt-4 md:text-base"
+                >
+                  {content.contact.description}
+                </motion.p>
 
-              <motion.a
-                href={`mailto:${content.hero.email}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6 }}
-                className="group mt-6 flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-all hover:gap-3 md:mt-8 md:px-8 md:py-4 md:text-base"
-              >
-                <Mail className="h-4 w-4 md:h-5 md:w-5" />
-                {content.hero.email}
-                <ArrowUpRight className="h-4 w-4 md:h-5 md:w-5" />
-              </motion.a>
+                {/* Contact Options */}
+                <div className="mt-6 flex flex-col gap-3 md:mt-8 md:gap-4">
+                  {content.contact.email && (
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={`mailto:${content.contact.email}`}
+                      className="flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+                    >
+                      <Mail className="h-5 w-5" />
+                      {content.contact.email}
+                    </motion.a>
+                  )}
+                </div>
 
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="mt-6 flex items-center gap-4 md:mt-8 md:gap-6"
-              >
-                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
-                  <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="hidden md:inline">LinkedIn</span>
-                </a>
-                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
-                  <Instagram className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="hidden md:inline">Instagram</span>
-                </a>
-                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
-                  <X className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="hidden md:inline">Twitter</span>
-                </a>
-              </motion.div>
+                {/* Social Links */}
+                <div className="mt-6 flex gap-3 md:mt-8 md:gap-4">
+                  {content.contact.socialLinks?.linkedin && (
+                    <a href={content.contact.socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-3 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-3.5">
+                      <Linkedin className="h-5 w-5 md:h-6 md:w-6" />
+                    </a>
+                  )}
+                  {content.contact.socialLinks?.instagram && (
+                    <a href={content.contact.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-3 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-3.5">
+                      <Instagram className="h-5 w-5 md:h-6 md:w-6" />
+                    </a>
+                  )}
+                  {content.contact.socialLinks?.twitter && (
+                    <a href={content.contact.socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="rounded-full bg-secondary p-3 text-foreground transition-colors hover:bg-primary hover:text-primary-foreground md:p-3.5">
+                      <X className="h-5 w-5 md:h-6 md:w-6" />
+                    </a>
+                  )}
+                </div>
+
+                {/* Terms */}
+                <motion.button
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.6 }}
+                  onClick={() => setIsTermsOpen(true)}
+                  className="mt-8 text-xs text-muted-foreground hover:text-foreground md:text-sm"
+                >
+                  Terms & Conditions
+                </motion.button>
+              </div>
             </div>
           </motion.main>
         )}
       </AnimatePresence>
-
-      {/* Footer with Terms & Conditions */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
-        <span>&copy; 2024 {content.hero.name}</span>
-        <button 
-          onClick={() => setIsTermsOpen(true)}
-          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline"
-        >
-          Terms & Conditions
-        </button>
-        <span>{content.hero.title.split("&")[0].trim()}</span>
-      </div>
 
       {/* Terms & Conditions Dialog */}
       <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
