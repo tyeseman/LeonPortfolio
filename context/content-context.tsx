@@ -44,7 +44,7 @@ export interface HeroContent {
   email: string
   linkedinUrl: string
   instagramUrl: string
-  twitterUrl: string
+  facebookUrl: string
 }
 
 export interface AboutContent {
@@ -86,7 +86,7 @@ const defaultContent: PortfolioContent = {
     email: "hello@leontyes.com",
     linkedinUrl: "#",
     instagramUrl: "#",
-    twitterUrl: "#",
+    facebookUrl: "#",
   },
   about: {
     bio: "I'm a visual designer with over 6 years of experience crafting brand identities, motion graphics, and digital experiences that tell compelling stories.",

@@ -451,11 +451,11 @@ export default function AdminDashboard() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="twitterUrl" className="text-xs">Twitter URL</Label>
+                  <Label htmlFor="facebookUrl" className="text-xs">Facebook URL</Label>
                   <Input
-                    id="twitterUrl"
-                    value={editedContent.hero.twitterUrl}
-                    onChange={(e) => updateHero("twitterUrl", e.target.value)}
+                    id="facebookUrl"
+                    value={editedContent.hero.facebookUrl}
+                    onChange={(e) => updateHero("facebookUrl", e.target.value)}
                     className="h-9 text-sm"
                   />
                 </div>

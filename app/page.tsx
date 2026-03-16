@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, User } from "lucide-react"
+import { ArrowUpRight, Mail, Linkedin, Instagram, Facebook, ChevronDown, Star, Clock, User } from "lucide-react"
 import { useContent } from "@/context/content-context"
 import { TermsDialog } from "@/components/terms-dialog"
 import { BackgroundAnimation } from "@/components/background-animation"
@@ -225,6 +225,22 @@ export default function Portfolio() {
                     >
                       Contact
                     </button>
+                  </div>
+
+                  {/* Social Media Links */}
+                  <div className="mt-4 flex gap-2 md:mt-5">
+                    <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit LinkedIn profile">
+                      <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
+                      <span className="hidden md:inline">LinkedIn</span>
+                    </a>
+                    <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Instagram profile">
+                      <Instagram className="h-4 w-4 md:h-5 md:w-5" />
+                      <span className="hidden md:inline">Instagram</span>
+                    </a>
+                    <a href={content.hero.facebookUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Facebook profile">
+                      <Facebook className="h-4 w-4 md:h-5 md:w-5" />
+                      <span className="hidden md:inline">Facebook</span>
+                    </a>
                   </div>
                 </motion.div>
               </div>
@@ -733,9 +749,9 @@ export default function Portfolio() {
                   <Instagram className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Instagram</span>
                 </a>
-                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Twitter profile">
-                  <X className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="hidden md:inline">Twitter</span>
+                <a href={content.hero.facebookUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Facebook profile">
+                  <Facebook className="h-4 w-4 md:h-5 md:w-5" />
+                  <span className="hidden md:inline">Facebook</span>
                 </a>
               </motion.div>
             </div>
