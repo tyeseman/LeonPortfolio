@@ -1,7 +1,4 @@
-import { useState } from "react"
-import { Upload, X, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
+import { Input } from "@/components/ui/input"
 
 interface ImageUploadProps {
   onImageUpload: (path: string) => void
@@ -11,113 +8,34 @@ interface ImageUploadProps {
   fieldName?: string
 }
 
-export function ImageUpload({ onImageUpload, currentImage, category, label = "Upload Image", fieldName }: ImageUploadProps) {
-  const [isUploading, setIsUploading] = useState(false)
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState(false)
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    setError("")
-    setSuccess(false)
-    setIsUploading(true)
-
-    try {
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("category", category)
-
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      })
-
-      if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Upload failed")
-      }
-
-      const data = await response.json()
-      onImageUpload(data.path)
-      setSuccess(true)
-      setTimeout(() => setSuccess(false), 3000)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed")
-      setTimeout(() => setError(""), 3000)
-    } finally {
-      setIsUploading(false)
-    }
-  }
-
+export function ImageUpload({ onImageUpload, currentImage, label = "Image Path" }: ImageUploadProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <label className="text-xs font-medium">{label}</label>
-        {currentImage && !currentImage.includes("http") && (
-          <span className="text-[10px] text-emerald-500">Local upload</span>
+        {currentImage && (
+          <span className="text-[10px] text-emerald-500">Linked</span>
         )}
       </div>
-      <div className="relative">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-          disabled={isUploading}
-          className="hidden"
-          id={`upload-${category}${fieldName ? `-${fieldName}` : ''}`}
+      <div className="space-y-2">
+        <Input
+          type="text"
+          placeholder="/projects/image.jpg"
+          value={currentImage || ""}
+          onChange={(e) => onImageUpload(e.target.value)}
+          className="h-8 text-sm"
         />
-        <label htmlFor={`upload-${category}${fieldName ? `-${fieldName}` : ''}`} className="block">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="w-full h-9 text-xs gap-1.5 cursor-pointer"
-            disabled={isUploading}
-            asChild
-          >
-            <div>
-              {isUploading ? (
-                <>
-                  <div className="h-3 w-3 animate-spin rounded-full border border-primary border-t-transparent" />
-                  Uploading...
-                </>
-              ) : success ? (
-                <>
-                  <Check className="h-3.5 w-3.5 text-emerald-500" />
-                  Uploaded!
-                </>
-              ) : error ? (
-                <>
-                  <X className="h-3.5 w-3.5 text-destructive" />
-                  Error
-                </>
-              ) : (
-                <>
-                  <Upload className="h-3.5 w-3.5" />
-                  Choose Image
-                </>
-              )}
-            </div>
-          </Button>
-        </label>
+        <p className="text-[10px] text-muted-foreground">Enter the path to an image file in the public folder (e.g., /projects/image.jpg)</p>
       </div>
-      {error && (
-        <motion.p
-          initial={{ opacity: 0, y: -5 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-xs text-destructive"
-        >
-          {error}
-        </motion.p>
-      )}
       {currentImage && (
-        <div className="relative inline-block rounded-lg overflow-hidden border border-border">
+        <div className="relative inline-block rounded-lg overflow-hidden border border-border bg-secondary/50">
           <img
             src={currentImage}
             alt="Preview"
             className="h-20 w-20 object-cover"
+            onError={(e) => {
+              e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23333' width='80' height='80'/%3E%3Ctext x='40' y='40' font-size='12' fill='%23666' text-anchor='middle' dominant-baseline='middle'%3EImage not found%3C/text%3E%3C/svg%3E"
+            }}
           />
         </div>
       )}
