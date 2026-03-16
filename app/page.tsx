@@ -6,6 +6,7 @@ import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, U
 import { useContent } from "@/context/content-context"
 import { TermsDialog } from "@/components/terms-dialog"
 import { BackgroundAnimation } from "@/components/background-animation"
+import { ImageLightbox } from "@/components/image-lightbox"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
@@ -16,6 +17,7 @@ export default function Portfolio() {
   const [activeReview, setActiveReview] = useState(0)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
 
   // Auto-loop reviews every 4 seconds
   useEffect(() => {
@@ -528,26 +530,34 @@ export default function Portfolio() {
                             {(project.detailImageOne || project.detailImageTwo) && (
                               <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
                                 {project.detailImageOne && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                  <button
+                                    onClick={() => setLightboxImage(project.detailImageOne)}
+                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity"
+                                    aria-label="Enlarge image"
+                                  >
                                     <img 
                                       src={project.detailImageOne} 
                                       alt={`${project.title} - Detail 1`}
-                                      className="h-full w-full object-cover"
+                                      className="h-full w-full object-cover pointer-events-none"
                                       crossOrigin="anonymous"
                                       referrerPolicy="no-referrer"
                                     />
-                                  </div>
+                                  </button>
                                 )}
                                 {project.detailImageTwo && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
+                                  <button
+                                    onClick={() => setLightboxImage(project.detailImageTwo)}
+                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity"
+                                    aria-label="Enlarge image"
+                                  >
                                     <img 
                                       src={project.detailImageTwo} 
                                       alt={`${project.title} - Detail 2`}
-                                      className="h-full w-full object-cover"
+                                      className="h-full w-full object-cover pointer-events-none"
                                       crossOrigin="anonymous"
                                       referrerPolicy="no-referrer"
                                     />
-                                  </div>
+                                  </button>
                                 )}
                               </div>
                             )}
@@ -689,6 +699,13 @@ export default function Portfolio() {
 
       {/* Terms & Conditions Dialog */}
       <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
+      
+      {/* Image Lightbox Modal */}
+      <ImageLightbox 
+        imageUrl={lightboxImage} 
+        isOpen={!!lightboxImage}
+        onClose={() => setLightboxImage(null)} 
+      />
     </div>
   )
 }
