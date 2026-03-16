@@ -93,6 +93,49 @@ export default function Portfolio() {
       </nav>
 
       {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-16 left-0 right-0 z-50 bg-background border-b border-border md:hidden"
+          >
+            <div className="flex flex-col gap-1 px-4 py-4">
+              {navItems.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    setActiveSection(item)
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`rounded-lg px-4 py-3 text-left font-medium transition-colors ${
+                    activeSection === item 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-foreground hover:bg-secondary"
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Main Content Area */}
       <AnimatePresence mode="wait">
