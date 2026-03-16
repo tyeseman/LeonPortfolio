@@ -188,11 +188,6 @@ const defaultContent: PortfolioContent = {
 // Storage key for localStorage
 const STORAGE_KEY = "portfolio-content"
 
-// Clear old localStorage on app init to ensure fresh data
-if (typeof window !== "undefined") {
-  localStorage.removeItem(STORAGE_KEY)
-}
-
 interface ContentContextType {
   content: PortfolioContent
   updateContent: (newContent: PortfolioContent) => void
@@ -236,7 +231,11 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   const resetContent = () => {
     setContent(defaultContent)
-    localStorage.removeItem(STORAGE_KEY)
+    try {
+      localStorage.removeItem(STORAGE_KEY)
+    } catch (error) {
+      console.error("Failed to clear localStorage:", error)
+    }
   }
 
   return (
