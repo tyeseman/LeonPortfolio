@@ -195,8 +195,6 @@ const ContentContext = createContext<{
   resetContent: () => void
 } | undefined>(undefined)
 
-const ContentContext = createContext<ContentContextType | undefined>(undefined)
-
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<PortfolioContent>(defaultContent)
 
