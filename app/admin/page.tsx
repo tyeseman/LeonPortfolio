@@ -68,9 +68,9 @@ export default function AdminDashboard() {
   }
 
   const handleReset = () => {
-    if (confirm("Are you sure you want to reset all content to defaults and clear all saved changes? This cannot be undone.")) {
+    if (confirm("Are you sure you want to reset all content to defaults? This cannot be undone.")) {
       resetContent()
-      setSaveMessage("Content reset to defaults and localStorage cleared!")
+      setSaveMessage("Content reset to defaults!")
       setTimeout(() => setSaveMessage(""), 3000)
     }
   }

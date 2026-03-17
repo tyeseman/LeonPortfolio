@@ -188,42 +188,17 @@ const defaultContent: PortfolioContent = {
 // Storage key for localStorage
 const STORAGE_KEY = "portfolio-content"
 
-interface ContentContextType {
+// Context
+const ContentContext = createContext<{
   content: PortfolioContent
   updateContent: (newContent: PortfolioContent) => void
   resetContent: () => void
-}
+} | undefined>(undefined)
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<PortfolioContent>(defaultContent)
-  const [isLoaded, setIsLoaded] = useState(false)
-
-  // Load content from localStorage on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        setContent(parsed)
-      }
-    } catch (error) {
-      console.error("Failed to load content from storage:", error)
-    }
-    setIsLoaded(true)
-  }, [])
-
-  // Save content to localStorage whenever it changes
-  useEffect(() => {
-    if (isLoaded) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(content))
-      } catch (error) {
-        console.error("Failed to save content to storage:", error)
-      }
-    }
-  }, [content, isLoaded])
 
   const updateContent = (newContent: PortfolioContent) => {
     setContent(newContent)
@@ -231,11 +206,6 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   const resetContent = () => {
     setContent(defaultContent)
-    try {
-      localStorage.removeItem(STORAGE_KEY)
-    } catch (error) {
-      console.error("Failed to clear localStorage:", error)
-    }
   }
 
   return (
