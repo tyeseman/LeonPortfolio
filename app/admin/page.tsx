@@ -53,7 +53,23 @@ export default function AdminDashboard() {
 
   // Update edited content when content changes
   useEffect(() => {
-    setEditedContent(content)
+    // Normalize projects to ensure images array exists with proper structure
+    const normalizedContent = {
+      ...content,
+      projects: (content.projects || []).map(project => ({
+        ...project,
+        images: Array.isArray(project.images) && project.images.length >= 5
+          ? project.images.slice(0, 5)
+          : [
+              project.images?.[0] || "",
+              project.images?.[1] || "",
+              project.images?.[2] || "",
+              project.images?.[3] || "",
+              project.images?.[4] || ""
+            ]
+      }))
+    }
+    setEditedContent(normalizedContent)
   }, [content])
 
   // Track changes
@@ -707,17 +723,17 @@ export default function AdminDashboard() {
                             <ImageUpload
                               category="projects"
                               label="Image 1"
-                              currentImage={project.images[0]}
+                              currentImage={project.images?.[0] || ""}
                               onImageUpload={(path) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[0] = path
                                 updateProject(index, "images", newImages)
                               }}
                             />
                             <Input
-                              value={project.images[0] || ""}
+                              value={project.images?.[0] || ""}
                               onChange={(e) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[0] = e.target.value
                                 updateProject(index, "images", newImages)
                               }}
@@ -732,17 +748,17 @@ export default function AdminDashboard() {
                             <ImageUpload
                               category="projects"
                               label="Image 2"
-                              currentImage={project.images[1]}
+                              currentImage={project.images?.[1] || ""}
                               onImageUpload={(path) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[1] = path
                                 updateProject(index, "images", newImages)
                               }}
                             />
                             <Input
-                              value={project.images[1] || ""}
+                              value={project.images?.[1] || ""}
                               onChange={(e) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[1] = e.target.value
                                 updateProject(index, "images", newImages)
                               }}
@@ -757,17 +773,17 @@ export default function AdminDashboard() {
                             <ImageUpload
                               category="projects"
                               label="Image 3"
-                              currentImage={project.images[2]}
+                              currentImage={project.images?.[2] || ""}
                               onImageUpload={(path) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[2] = path
                                 updateProject(index, "images", newImages)
                               }}
                             />
                             <Input
-                              value={project.images[2] || ""}
+                              value={project.images?.[2] || ""}
                               onChange={(e) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[2] = e.target.value
                                 updateProject(index, "images", newImages)
                               }}
@@ -782,17 +798,17 @@ export default function AdminDashboard() {
                             <ImageUpload
                               category="projects"
                               label="Image 4"
-                              currentImage={project.images[3]}
+                              currentImage={project.images?.[3] || ""}
                               onImageUpload={(path) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[3] = path
                                 updateProject(index, "images", newImages)
                               }}
                             />
                             <Input
-                              value={project.images[3] || ""}
+                              value={project.images?.[3] || ""}
                               onChange={(e) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[3] = e.target.value
                                 updateProject(index, "images", newImages)
                               }}
@@ -807,17 +823,17 @@ export default function AdminDashboard() {
                             <ImageUpload
                               category="projects"
                               label="Image 5"
-                              currentImage={project.images[4]}
+                              currentImage={project.images?.[4] || ""}
                               onImageUpload={(path) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[4] = path
                                 updateProject(index, "images", newImages)
                               }}
                             />
                             <Input
-                              value={project.images[4] || ""}
+                              value={project.images?.[4] || ""}
                               onChange={(e) => {
-                                const newImages = [...project.images]
+                                const newImages = [...(project.images || ["", "", "", "", ""])]
                                 newImages[4] = e.target.value
                                 updateProject(index, "images", newImages)
                               }}
