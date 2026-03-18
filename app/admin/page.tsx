@@ -168,11 +168,9 @@ export default function AdminDashboard() {
       title: "New Project",
       category: "Category",
       year: new Date().getFullYear().toString(),
-      thumbnailImage: "",
-      detailImageOne: "",
-      detailImageTwo: "",
+      thumbnail: "",
+      images: ["", "", ""],
       description: "Project description",
-      youtubeVideoUrl: "",
       timeline: "X weeks",
       client: "Client Name",
       deliverables: ["Deliverable 1"]
@@ -669,89 +667,20 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Thumbnail Image (shown in Recent Work & Selected Work list)</Label>
+                          <Label className="text-xs">Thumbnail</Label>
                           <ImageUpload
                             category="projects"
-                            label="Thumbnail Image"
-                            fieldName="thumbnail"
-                            currentImage={project.thumbnailImage}
-                            onImageUpload={(path) => updateProject(index, "thumbnailImage", path)}
+                            label="Project Thumbnail"
+                            currentImage={project.thumbnail}
+                            onImageUpload={(path) => updateProject(index, "thumbnail", path)}
                           />
                           <Input
-                            value={project.thumbnailImage}
-                            onChange={(e) => updateProject(index, "thumbnailImage", e.target.value)}
+                            value={project.thumbnail}
+                            onChange={(e) => updateProject(index, "thumbnail", e.target.value)}
                             className="h-8 text-sm"
                             placeholder="Or paste URL..."
                           />
-                          {project.thumbnailImage && (
-                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
-                              <img 
-                                src={project.thumbnailImage} 
-                                alt="Thumbnail preview"
-                                className="h-full w-full object-cover"
-                                crossOrigin="anonymous"
-                              />
-                            </div>
-                          )}
-                          <p className="text-[10px] text-muted-foreground">This is the main preview image shown in project cards.</p>
                         </div>
-
-                        <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Detail Image One (shown in expanded project view)</Label>
-                          <ImageUpload
-                            category="projects"
-                            label="Detail Image One"
-                            fieldName="detail-one"
-                            currentImage={project.detailImageOne}
-                            onImageUpload={(path) => updateProject(index, "detailImageOne", path)}
-                          />
-                          <Input
-                            value={project.detailImageOne}
-                            onChange={(e) => updateProject(index, "detailImageOne", e.target.value)}
-                            className="h-8 text-sm"
-                            placeholder="Or paste URL..."
-                          />
-                          {project.detailImageOne && (
-                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
-                              <img 
-                                src={project.detailImageOne} 
-                                alt="Detail image one preview"
-                                className="h-full w-full object-cover"
-                                crossOrigin="anonymous"
-                              />
-                            </div>
-                          )}
-                          <p className="text-[10px] text-muted-foreground">First image shown inside expanded project details.</p>
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <Label className="text-xs font-semibold">Detail Image Two (shown in expanded project view)</Label>
-                          <ImageUpload
-                            category="projects"
-                            label="Detail Image Two"
-                            fieldName="detail-two"
-                            currentImage={project.detailImageTwo}
-                            onImageUpload={(path) => updateProject(index, "detailImageTwo", path)}
-                          />
-                          <Input
-                            value={project.detailImageTwo}
-                            onChange={(e) => updateProject(index, "detailImageTwo", e.target.value)}
-                            className="h-8 text-sm"
-                            placeholder="Or paste URL..."
-                          />
-                          {project.detailImageTwo && (
-                            <div className="h-16 w-24 overflow-hidden rounded-lg border border-border bg-secondary/50">
-                              <img 
-                                src={project.detailImageTwo} 
-                                alt="Detail image two preview"
-                                className="h-full w-full object-cover"
-                                crossOrigin="anonymous"
-                              />
-                            </div>
-                          )}
-                          <p className="text-[10px] text-muted-foreground">Second image shown inside expanded project details.</p>
-                        </div>
-
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Description</Label>
                           <Textarea
@@ -761,18 +690,6 @@ export default function AdminDashboard() {
                             className="text-sm"
                           />
                         </div>
-
-                        <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs">YouTube Video URL (optional)</Label>
-                          <Input
-                            value={project.youtubeVideoUrl || ""}
-                            onChange={(e) => updateProject(index, "youtubeVideoUrl", e.target.value)}
-                            className="h-8 text-sm"
-                            placeholder="https://www.youtube.com/watch?v=..."
-                          />
-                          <p className="text-[10px] text-muted-foreground">Paste a YouTube URL to embed a video in the project details view.</p>
-                        </div>
-
                         <div className="space-y-1.5 md:col-span-2">
                           <Label className="text-xs">Deliverables (comma separated)</Label>
                           <Input
@@ -781,7 +698,134 @@ export default function AdminDashboard() {
                             className="h-8 text-sm"
                           />
                         </div>
+                        <div className="space-y-1.5 md:col-span-2">
+                          <Label className="text-xs font-semibold mb-2 block">Project Images (Image 1 used as icon next to title)</Label>
+                          
+                          {/* Image 1 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 1 (Main/Icon)</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 1"
+                              currentImage={project.images[0]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[0] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[0] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[0] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
 
+                          {/* Image 2 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 2</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 2"
+                              currentImage={project.images[1]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[1] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[1] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[1] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
+
+                          {/* Image 3 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 3</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 3"
+                              currentImage={project.images[2]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[2] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[2] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[2] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
+
+                          {/* Image 4 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 4</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 4"
+                              currentImage={project.images[3]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[3] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[3] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[3] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
+
+                          {/* Image 5 */}
+                          <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
+                            <Label className="text-xs">Image 5</Label>
+                            <ImageUpload
+                              category="projects"
+                              label="Image 5"
+                              currentImage={project.images[4]}
+                              onImageUpload={(path) => {
+                                const newImages = [...project.images]
+                                newImages[4] = path
+                                updateProject(index, "images", newImages)
+                              }}
+                            />
+                            <Input
+                              value={project.images[4] || ""}
+                              onChange={(e) => {
+                                const newImages = [...project.images]
+                                newImages[4] = e.target.value
+                                updateProject(index, "images", newImages)
+                              }}
+                              className="h-8 text-sm"
+                              placeholder="Or paste URL..."
+                            />
+                          </div>
+                        </div>
                       </div>
                       <Button
                         variant="ghost"

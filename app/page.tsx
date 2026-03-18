@@ -218,12 +218,14 @@ export default function Portfolio() {
                     <ArrowUpRight className="h-3 w-3 text-muted-foreground transition-all group-hover:text-primary md:h-4 md:w-4" />
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
-                    {content.projects.slice(0, 3).map((project, i) => (
+                    {content.projects.slice(0, 3).map((project, i) => {
+                      const firstImage = project.images?.[0] || project.thumbnail
+                      return (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10">
-                            {project.thumbnailImage && (
+                            {firstImage && (
                               <img 
-                                src={project.thumbnailImage} 
+                                src={firstImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -236,7 +238,8 @@ export default function Portfolio() {
                             <p className="text-[10px] text-muted-foreground md:text-xs">{project.category}</p>
                           </div>
                         </div>
-                      ))}
+                      )
+                    })}
                   </div>
                 </motion.div>
 
@@ -501,7 +504,9 @@ export default function Portfolio() {
               </motion.h2>
               
               <div className="mt-4 md:mt-6">
-                {content.projects.map((project, i) => (
+                {content.projects.map((project, i) => {
+                  const firstImage = project.images?.[0] || project.thumbnail
+                  return (
                     <motion.div
                       key={i}
                       initial={{ opacity: 0, y: 20 }}
@@ -518,9 +523,9 @@ export default function Portfolio() {
                             {String(i + 1).padStart(2, "0")}
                           </span>
                           <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-14 md:w-14 md:rounded-xl">
-                            {project.thumbnailImage && (
+                            {firstImage && (
                               <img 
-                                src={project.thumbnailImage} 
+                                src={firstImage} 
                                 alt={project.title}
                                 className="h-full w-full object-cover"
                                 crossOrigin="anonymous"
@@ -539,6 +544,7 @@ export default function Portfolio() {
                           expandedProject === i ? "rotate-180" : ""
                         }`} />
                       </button>
+                      
                       <AnimatePresence>
                         {expandedProject === i && (
                           <motion.div
@@ -549,56 +555,33 @@ export default function Portfolio() {
                             className="overflow-hidden"
                           >
                             <div className="pb-4 pl-10 md:pl-16">
+                              {/* Project Images */}
+                              <div className="flex gap-2 overflow-x-auto pb-3 md:gap-3">
+                                {project.images && project.images.length > 0 ? (
+                                  project.images.map((imgUrl, imgIndex) => (
+                                    <div 
+                                      key={imgIndex} 
+                                      className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
+                                    >
+                                      <img 
+                                        src={imgUrl} 
+                                        alt={`${project.title} - Image ${imgIndex + 1}`}
+                                        className="h-full w-full object-cover"
+                                        crossOrigin="anonymous"
+                                        referrerPolicy="no-referrer"
+                                      />
+                                    </div>
+                                  ))
+                                ) : (
+                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl" />
+                                )}
+                              </div>
+                              
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
                             </p>
-
-                            {/* Detail Images */}
-                            {(project.detailImageOne || project.detailImageTwo) && (
-                              <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
-                                {project.detailImageOne && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.detailImageOne} 
-                                      alt={`${project.title} - Detail 1`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                                {project.detailImageTwo && (
-                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
-                                    <img 
-                                      src={project.detailImageTwo} 
-                                      alt={`${project.title} - Detail 2`}
-                                      className="h-full w-full object-cover"
-                                      crossOrigin="anonymous"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            {/* YouTube Video */}
-                            {project.youtubeVideoUrl && (
-                              <div className="mt-4 md:mt-6">
-                                <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
-                                  <iframe
-                                    width="100%"
-                                    height="100%"
-                                    src={`https://www.youtube.com/embed/${project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/) ? project.youtubeVideoUrl.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/)[1] : ''}`}
-                                    title={`${project.title} Video`}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                    className="h-full w-full"
-                                  />
-                                </div>
-                              </div>
-                            )}
-
+                            
                             {/* Project Details */}
                             <div className="mt-3 flex flex-wrap gap-3 md:mt-4 md:gap-4">
                               <div className="flex items-center gap-1.5 text-xs md:gap-2">
@@ -629,10 +612,11 @@ export default function Portfolio() {
                             </div>
                           </div>
                         </motion.div>
-                        )}
+                      )}
                       </AnimatePresence>
                     </motion.div>
-                  ))}
+                  )
+                })}
               </div>
             </div>
           </motion.main>
