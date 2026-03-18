@@ -44,7 +44,7 @@ export interface HeroContent {
   email: string
   linkedinUrl: string
   instagramUrl: string
-  facebookUrl: string
+  twitterUrl: string
 }
 
 export interface AboutContent {
@@ -86,7 +86,7 @@ const defaultContent: PortfolioContent = {
     email: "hello@leontyes.com",
     linkedinUrl: "#",
     instagramUrl: "#",
-    facebookUrl: "#",
+    twitterUrl: "#",
   },
   about: {
     bio: "I'm a visual designer with over 6 years of experience crafting brand identities, motion graphics, and digital experiences that tell compelling stories.",
@@ -188,15 +188,47 @@ const defaultContent: PortfolioContent = {
 // Storage key for localStorage
 const STORAGE_KEY = "portfolio-content"
 
-// Context
-const ContentContext = createContext<{
+// Clear old localStorage on app init to ensure fresh data
+if (typeof window !== "undefined") {
+  localStorage.removeItem(STORAGE_KEY)
+}
+
+interface ContentContextType {
   content: PortfolioContent
   updateContent: (newContent: PortfolioContent) => void
   resetContent: () => void
-} | undefined>(undefined)
+}
+
+const ContentContext = createContext<ContentContextType | undefined>(undefined)
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<PortfolioContent>(defaultContent)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Load content from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        setContent(parsed)
+      }
+    } catch (error) {
+      console.error("Failed to load content from storage:", error)
+    }
+    setIsLoaded(true)
+  }, [])
+
+  // Save content to localStorage whenever it changes
+  useEffect(() => {
+    if (isLoaded) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(content))
+      } catch (error) {
+        console.error("Failed to save content to storage:", error)
+      }
+    }
+  }, [content, isLoaded])
 
   const updateContent = (newContent: PortfolioContent) => {
     setContent(newContent)
@@ -204,6 +236,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
   const resetContent = () => {
     setContent(defaultContent)
+    localStorage.removeItem(STORAGE_KEY)
   }
 
   return (

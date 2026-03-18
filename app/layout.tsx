@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   title: 'Leon C. Tyes — Visual Designer',
   description: 'I design visual stories through branding, motion, and digital experiences.',
   generator: 'v0.app',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
   icons: {
     icon: [
       {

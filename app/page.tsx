@@ -2,11 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, Mail, Linkedin, Instagram, Facebook, ChevronDown, Star, Clock, User } from "lucide-react"
+import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, User } from "lucide-react"
 import { useContent } from "@/context/content-context"
 import { TermsDialog } from "@/components/terms-dialog"
 import { BackgroundAnimation } from "@/components/background-animation"
-import { ImageLightbox } from "@/components/image-lightbox"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
@@ -17,7 +16,6 @@ export default function Portfolio() {
   const [activeReview, setActiveReview] = useState(0)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
 
   // Auto-loop reviews every 4 seconds
   useEffect(() => {
@@ -35,16 +33,11 @@ export default function Portfolio() {
 
   return (
     <div className="h-screen w-screen overflow-hidden bg-background text-foreground">
-      {/* Skip to main content link for accessibility */}
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-primary focus:text-primary-foreground focus:px-4 focus:py-2 focus:rounded-md">
-        Skip to main content
-      </a>
-      
       {/* Subtle Background Animation */}
       <BackgroundAnimation />
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 bg-background/95 backdrop-blur border-b border-border/50" role="navigation" aria-label="Main navigation">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
         <motion.div 
           className="font-display text-base font-bold tracking-tight md:text-lg"
           initial={{ opacity: 0, x: -20 }}
@@ -70,7 +63,6 @@ export default function Portfolio() {
                   ? "text-primary" 
                   : "text-muted-foreground hover:text-foreground"
               }`}
-              aria-current={activeSection === item ? "page" : undefined}
             >
               {item}
               {activeSection === item && (
@@ -88,9 +80,7 @@ export default function Portfolio() {
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="md:hidden relative w-10 h-10 flex items-center justify-center"
-          aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={isMobileMenuOpen}
-          aria-controls="mobile-menu"
+          aria-label="Toggle menu"
         >
           <div className="relative w-5 h-5">
             <span className={`absolute h-0.5 w-5 bg-foreground transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 top-2.5' : 'top-1'}`} />
@@ -108,25 +98,9 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/50 md:hidden"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-16 left-0 right-0 z-50 bg-background border-b border-border md:hidden"
-            id="mobile-menu"
-            role="navigation"
-            aria-label="Mobile navigation"
+            className="fixed inset-0 z-40 bg-background/95 pt-20 md:hidden"
           >
-            <div className="flex flex-col gap-1 px-4 py-4">
+            <div className="flex flex-col gap-2 px-4">
               {navItems.map((item) => (
                 <button
                   key={item}
@@ -152,7 +126,6 @@ export default function Portfolio() {
       <AnimatePresence mode="wait">
         {activeSection === "Home" && (
           <motion.main
-            id="main-content"
             key="home"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -214,33 +187,17 @@ export default function Portfolio() {
                   <div className="mt-3 flex gap-2 md:mt-4">
                     <button 
                       onClick={() => setActiveSection("Work")}
-                      className="group flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-all hover:gap-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary md:px-4 md:py-2"
+                      className="group flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground transition-all hover:gap-2 md:px-4 md:py-2"
                     >
                       View Work
                       <ArrowUpRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
                     </button>
                     <button 
                       onClick={() => setActiveSection("Contact")}
-                      className="rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary md:px-4 md:py-2"
+                      className="rounded-full border border-border px-3 py-1.5 text-xs font-medium transition-colors hover:bg-secondary md:px-4 md:py-2"
                     >
                       Contact
                     </button>
-                  </div>
-
-                  {/* Social Media Links */}
-                  <div className="mt-4 flex gap-2 md:mt-5">
-                    <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit LinkedIn profile">
-                      <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
-                      <span className="hidden md:inline">LinkedIn</span>
-                    </a>
-                    <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Instagram profile">
-                      <Instagram className="h-4 w-4 md:h-5 md:w-5" />
-                      <span className="hidden md:inline">Instagram</span>
-                    </a>
-                    <a href={content.hero.facebookUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Facebook profile">
-                      <Facebook className="h-4 w-4 md:h-5 md:w-5" />
-                      <span className="hidden md:inline">Facebook</span>
-                    </a>
                   </div>
                 </motion.div>
               </div>
@@ -399,13 +356,12 @@ export default function Portfolio() {
 
         {activeSection === "About" && (
           <motion.main
-            id="main-content"
             key="about"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-20"
+            className="flex h-full w-full flex-col overflow-hidden px-4 pt-20 md:px-8 md:pt-16"
           >
             <div className="mx-auto w-full max-w-5xl">
               {/* Static Header */}
@@ -527,13 +483,12 @@ export default function Portfolio() {
 
         {activeSection === "Work" && (
           <motion.main
-            id="main-content"
             key="work"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pt-20 md:pb-24"
+            className="flex h-full w-full flex-col overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pt-16 md:pb-24 md:items-start md:justify-center"
           >
             <div className="flex w-full max-w-5xl flex-col">
               <motion.h2
@@ -593,7 +548,7 @@ export default function Portfolio() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-10 md:pl-16 max-h-[calc(100vh-250px)] overflow-y-auto">
+                            <div className="pb-4 pl-10 md:pl-16">
                               {/* Project Description */}
                             <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted-foreground md:mt-3 md:text-sm">
                               {project.description}
@@ -603,34 +558,26 @@ export default function Portfolio() {
                             {(project.detailImageOne || project.detailImageTwo) && (
                               <div className="mt-4 flex flex-wrap gap-3 md:mt-6 md:gap-4">
                                 {project.detailImageOne && (
-                                  <button
-                                    onClick={() => setLightboxImage(project.detailImageOne)}
-                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary"
-                                    aria-label={`Enlarge ${project.title} detail image 1`}
-                                  >
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
                                     <img 
                                       src={project.detailImageOne} 
                                       alt={`${project.title} - Detail 1`}
-                                      className="h-full w-full object-cover pointer-events-none"
+                                      className="h-full w-full object-cover"
                                       crossOrigin="anonymous"
                                       referrerPolicy="no-referrer"
                                     />
-                                  </button>
+                                  </div>
                                 )}
                                 {project.detailImageTwo && (
-                                  <button
-                                    onClick={() => setLightboxImage(project.detailImageTwo)}
-                                    className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60 cursor-pointer hover:opacity-75 transition-opacity focus:outline-none focus:ring-2 focus:ring-primary"
-                                    aria-label={`Enlarge ${project.title} detail image 2`}
-                                  >
+                                  <div className="h-32 w-48 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-40 md:w-60">
                                     <img 
                                       src={project.detailImageTwo} 
                                       alt={`${project.title} - Detail 2`}
-                                      className="h-full w-full object-cover pointer-events-none"
+                                      className="h-full w-full object-cover"
                                       crossOrigin="anonymous"
                                       referrerPolicy="no-referrer"
                                     />
-                                  </button>
+                                  </div>
                                 )}
                               </div>
                             )}
@@ -638,7 +585,7 @@ export default function Portfolio() {
                             {/* YouTube Video */}
                             {project.youtubeVideoUrl && (
                               <div className="mt-4 md:mt-6">
-                                <div className="max-w-2xl aspect-video overflow-hidden rounded-lg bg-black">
+                                <div className="aspect-video w-full overflow-hidden rounded-lg bg-black">
                                   <iframe
                                     width="100%"
                                     height="100%"
@@ -693,13 +640,12 @@ export default function Portfolio() {
 
         {activeSection === "Contact" && (
           <motion.main
-            id="main-content"
             key="contact"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pt-20 pb-20 md:px-8 md:pb-24"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 py-20 pb-20 md:py-0 md:px-8 md:pb-24"
           >
             <div className="flex w-full max-w-3xl flex-col items-center justify-center text-center">
               <motion.h2
@@ -741,17 +687,17 @@ export default function Portfolio() {
                 transition={{ delay: 0.4, duration: 0.6 }}
                 className="mt-6 flex items-center gap-4 md:mt-8 md:gap-6"
               >
-                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit LinkedIn profile">
+                <a href={content.hero.linkedinUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
                   <Linkedin className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">LinkedIn</span>
                 </a>
-                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Instagram profile">
+                <a href={content.hero.instagramUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
                   <Instagram className="h-4 w-4 md:h-5 md:w-5" />
                   <span className="hidden md:inline">Instagram</span>
                 </a>
-                <a href={content.hero.facebookUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary rounded px-1 md:text-sm" title="Visit Facebook profile">
-                  <Facebook className="h-4 w-4 md:h-5 md:w-5" />
-                  <span className="hidden md:inline">Facebook</span>
+                <a href={content.hero.twitterUrl} className="flex items-center gap-1.5 text-xs text-muted-foreground transition-colors hover:text-foreground md:text-sm">
+                  <X className="h-4 w-4 md:h-5 md:w-5" />
+                  <span className="hidden md:inline">Twitter</span>
                 </a>
               </motion.div>
             </div>
@@ -760,27 +706,19 @@ export default function Portfolio() {
       </AnimatePresence>
 
       {/* Footer with Terms & Conditions */}
-      <footer className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs" role="contentinfo">
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/95 backdrop-blur px-4 py-2 text-[10px] text-muted-foreground md:px-8 md:py-3 md:text-xs">
         <span>&copy; 2024 {content.hero.name}</span>
         <button 
           onClick={() => setIsTermsOpen(true)}
-          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline focus:outline-none focus:ring-2 focus:ring-primary rounded px-1"
-          aria-label="Open terms and conditions"
+          className="text-muted-foreground/60 transition-colors hover:text-muted-foreground hover:underline"
         >
           Terms & Conditions
         </button>
         <span>{content.hero.title.split("&")[0].trim()}</span>
-      </footer>
+      </div>
 
       {/* Terms & Conditions Dialog */}
       <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
-      
-      {/* Image Lightbox Modal */}
-      <ImageLightbox 
-        imageUrl={lightboxImage} 
-        isOpen={!!lightboxImage}
-        onClose={() => setLightboxImage(null)} 
-      />
     </div>
   )
 }
