@@ -1,6 +1,7 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect, ReactNode } from "react"
+import { createContext, useContext, useState, useEffect, ReactNode, useCallback } from "react"
+import { loadContentFromFirestore, saveContentToFirestore, subscribeToContent } from "@/lib/firestore-utils"
 
 // Types for portfolio content
 export interface Project {
@@ -268,13 +269,15 @@ const defaultContent: PortfolioContent = {
   },
 }
 
-// Storage key for localStorage
+// Storage key for localStorage (kept for fallback)
 const STORAGE_KEY = "portfolio-content"
 
 interface ContentContextType {
   content: PortfolioContent
   updateContent: (newContent: PortfolioContent) => void
   resetContent: () => void
+  isSynced: boolean
+  error: string | null
 }
 
 const ContentContext = createContext<ContentContextType | undefined>(undefined)
@@ -282,29 +285,100 @@ const ContentContext = createContext<ContentContextType | undefined>(undefined)
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [content, setContent] = useState<PortfolioContent>(defaultContent)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [isSynced, setIsSynced] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  // Load content from localStorage on mount
+  // Load content from Firestore on mount
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY)
-      if (saved) {
-        const parsed = JSON.parse(saved)
-        setContent(parsed)
+    let unsubscribe: (() => void) | null = null
+
+    const initializeContent = async () => {
+      try {
+        // Try to load from Firestore first
+        const firestoreContent = await loadContentFromFirestore()
+        
+        if (firestoreContent) {
+          setContent(firestoreContent)
+          setIsSynced(true)
+        } else {
+          // Fallback to localStorage if Firestore is empty
+          try {
+            const saved = localStorage.getItem(STORAGE_KEY)
+            if (saved) {
+              const parsed = JSON.parse(saved)
+              setContent(parsed)
+            }
+          } catch (err) {
+            console.error("Failed to load from localStorage:", err)
+          }
+        }
+      } catch (err) {
+        console.error("Error loading initial content:", err)
+        setError("Failed to load content from Firestore")
+        // Still try localStorage
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY)
+          if (saved) {
+            const parsed = JSON.parse(saved)
+            setContent(parsed)
+          }
+        } catch (localErr) {
+          console.error("Fallback to localStorage also failed:", localErr)
+        }
       }
-    } catch (error) {
-      console.error("Failed to load content from storage:", error)
+
+      // Subscribe to real-time updates
+      try {
+        unsubscribe = subscribeToContent(
+          (firestoreContent) => {
+            setContent(firestoreContent)
+            setIsSynced(true)
+            setError(null)
+          },
+          (err) => {
+            console.error("Subscription error:", err)
+            setError("Failed to sync with Firestore")
+          }
+        )
+      } catch (err) {
+        console.error("Failed to set up subscription:", err)
+      }
+
+      setIsLoaded(true)
     }
-    setIsLoaded(true)
+
+    initializeContent()
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe()
+      }
+    }
   }, [])
 
-  // Save content to localStorage whenever it changes
+  // Save content to Firestore whenever it changes
   useEffect(() => {
-    if (isLoaded) {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(content))
-      } catch (error) {
-        console.error("Failed to save content to storage:", error)
+    if (isLoaded && content !== defaultContent) {
+      const saveContent = async () => {
+        try {
+          await saveContentToFirestore(content)
+          setIsSynced(true)
+          setError(null)
+          
+          // Also save to localStorage as backup
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(content))
+          } catch (err) {
+            console.warn("Failed to save to localStorage backup:", err)
+          }
+        } catch (err) {
+          console.error("Failed to save content to Firestore:", err)
+          setError("Failed to save changes to Firestore")
+          setIsSynced(false)
+        }
       }
+      
+      saveContent()
     }
   }, [content, isLoaded])
 
@@ -315,10 +389,14 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const resetContent = () => {
     setContent(defaultContent)
     localStorage.removeItem(STORAGE_KEY)
+    // Reset in Firestore as well
+    saveContentToFirestore(defaultContent).catch((err) => {
+      console.error("Failed to reset Firestore:", err)
+    })
   }
 
   return (
-    <ContentContext.Provider value={{ content, updateContent, resetContent }}>
+    <ContentContext.Provider value={{ content, updateContent, resetContent, isSynced, error }}>
       {children}
     </ContentContext.Provider>
   )
