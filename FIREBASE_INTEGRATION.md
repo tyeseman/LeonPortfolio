@@ -11,9 +11,9 @@ Your portfolio is now integrated with Firebase Firestore for real-time data sync
 - Offline persistence enabled with IndexedDB
 
 ### Data Flow
-1. **On Load**: Content loads from Firestore
+1. **On Load**: Content loads from Firestore, with localStorage as fallback
 2. **Real-Time Sync**: Subscribe to document changes, updates reflect instantly
-3. **On Edit**: Dashboard saves changes to Firestore
+3. **On Edit**: Dashboard saves changes to Firestore and localStorage backup
 4. **All Users**: See updates immediately via real-time subscription
 
 ## Key Files
@@ -30,7 +30,7 @@ Your portfolio is now integrated with Firebase Firestore for real-time data sync
 ### Initialization
 ```typescript
 // Loads content from Firestore on app startup
-// If Firestore is empty, uses default content
+// If Firestore is empty, falls back to localStorage
 // Subscribes to real-time updates automatically
 ```
 
@@ -38,8 +38,9 @@ Your portfolio is now integrated with Firebase Firestore for real-time data sync
 ```typescript
 // When you edit content in the admin dashboard:
 // 1. Update is saved to Firestore
-// 2. Real-time subscribers are notified
-// 3. All users see the update immediately
+// 2. localStorage is updated as backup
+// 3. Real-time subscribers are notified
+// 4. All users see the update immediately
 ```
 
 ### Real-Time Sync
@@ -75,9 +76,10 @@ portfolio/
 ### ✅ Implemented
 - Real-time data synchronization
 - Offline persistence (IndexedDB)
+- localStorage fallback for compatibility
 - Automatic syncing on app startup
 - Real-time updates across all tabs/browsers
-- Error handling and fallback to default content
+- Error handling with fallback mechanisms
 
 ### 🔒 Security
 - Firestore Security Rules required (see below)
@@ -144,14 +146,20 @@ updateContent(newContent)
 // Automatically saves to Firestore
 ```
 
-## Migration to Firestore
+## Migration from localStorage
 
-The app now uses Firestore exclusively for data persistence. All data is automatically synced via Firestore's real-time listeners and offline caching through IndexedDB:
+Your existing localStorage data is preserved. On first load:
+1. App checks Firestore for data
+2. If Firestore is empty, uses localStorage
+3. Subsequent saves go to both Firestore and localStorage
 
-1. On first load, the app attempts to load from Firestore
-2. If Firestore is empty or unavailable, default content is used
-3. All edits are saved exclusively to Firestore
-4. Real-time listeners keep all connected users in sync
+To migrate existing data to Firestore:
+```typescript
+// In browser console (admin dashboard)
+const { content } = useContent()
+const { updateContent } = useContent()
+updateContent(content) // This saves to Firestore
+```
 
 ## Troubleshooting
 
