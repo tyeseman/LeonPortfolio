@@ -16,6 +16,7 @@ import {
   type PortfolioContent,
   type TermsSection
 } from "@/context/content-context"
+import { resetPortfolioData } from "@/lib/reset-utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"

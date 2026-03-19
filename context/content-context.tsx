@@ -248,7 +248,10 @@ export function ContentProvider({ children }: { children: ReactNode }) {
             const saved = localStorage.getItem(STORAGE_KEY)
             if (saved) {
               const parsed = JSON.parse(saved)
-              setContent(parsed)
+              // Migrate old data structure
+              const migratedProjects = parsed.projects ? parsed.projects.slice(0, 1) : []
+              const migratedData = { ...parsed, projects: migratedProjects }
+              setContent(migratedData)
             }
           } catch (err) {
             console.error("Failed to load from localStorage:", err)
@@ -262,7 +265,9 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           const saved = localStorage.getItem(STORAGE_KEY)
           if (saved) {
             const parsed = JSON.parse(saved)
-            setContent(parsed)
+            const migratedProjects = parsed.projects ? parsed.projects.slice(0, 1) : []
+            const migratedData = { ...parsed, projects: migratedProjects }
+            setContent(migratedData)
           }
         } catch (localErr) {
           console.error("Fallback to localStorage also failed:", localErr)
@@ -329,10 +334,15 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   }
 
   const resetContent = () => {
-    setContent(defaultContent)
+    // Reset to defaults with only 1 project
+    const cleanContent = {
+      ...defaultContent,
+      projects: defaultContent.projects.slice(0, 1)
+    }
+    setContent(cleanContent)
     localStorage.removeItem(STORAGE_KEY)
-    // Reset in Firestore as well
-    saveContentToFirestore(defaultContent).catch((err) => {
+    // Reset in Firestore as well with only 1 project
+    saveContentToFirestore(cleanContent).catch((err) => {
       console.error("Failed to reset Firestore:", err)
     })
   }
