@@ -1,21 +1,13 @@
 // Utility to reset portfolio data to defaults
 export function resetPortfolioData() {
-  // Clear localStorage
-  try {
-    localStorage.removeItem("portfolio-content")
-    console.log("[v0] Cleared localStorage")
-  } catch (err) {
-    console.error("[v0] Failed to clear localStorage:", err)
-  }
-  
-  // Clear Firestore (if available)
+  // Clear Firestore
   try {
     const { clearFirestoreData } = require("./firestore-utils")
     clearFirestoreData().catch((err: Error) => {
-      console.error("[v0] Failed to clear Firestore:", err)
+      console.error("Failed to clear Firestore:", err)
     })
   } catch (err) {
-    console.warn("[v0] Firestore not available for cleanup")
+    console.error("Failed to clear Firestore:", err)
   }
   
   // Reload page to reinitialize with defaults
