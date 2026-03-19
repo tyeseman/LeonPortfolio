@@ -1,33 +1,9 @@
 import { db } from "./firebase"
-import { doc, getDoc, setDoc, collection, query, onSnapshot, deleteDoc } from "firebase/firestore"
+import { doc, getDoc, setDoc, onSnapshot, deleteDoc } from "firebase/firestore"
 import type { PortfolioContent } from "@/context/content-context"
 
 const CONTENT_DOC_ID = "portfolio-data"
 const CONTENT_COLLECTION = "portfolio"
-
-// Migrate old project structure to new one
-function migrateProjects(content: PortfolioContent): PortfolioContent {
-  if (!content.projects || content.projects.length === 0) return content
-  
-  return {
-    ...content,
-    projects: content.projects.slice(0, 1).map((project: any) => ({
-      title: project.title || "",
-      category: project.category || "",
-      year: project.year || "",
-      thumbnail: project.thumbnail || "",
-      image1: project.image1 || project.images?.[0] || "",
-      image2: project.image2 || project.images?.[1] || "",
-      image3: project.image3 || project.images?.[2] || "",
-      youtubeUrl1: project.youtubeUrl1 || "",
-      youtubeUrl2: project.youtubeUrl2 || "",
-      description: project.description || "",
-      timeline: project.timeline || "",
-      client: project.client || "",
-      deliverables: project.deliverables || []
-    }))
-  }
-}
 
 // Load content from Firestore
 export async function loadContentFromFirestore(): Promise<PortfolioContent | null> {
@@ -37,13 +13,7 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
     
     if (docSnap.exists()) {
       const data = docSnap.data() as PortfolioContent
-      // Migrate old structure if needed
-      const migratedData = migrateProjects(data)
-      // If migration happened (projects were trimmed), save it back
-      if (migratedData.projects.length !== data.projects.length) {
-        await setDoc(docRef, migratedData, { merge: true })
-      }
-      return migratedData
+      return data
     }
     return null
   } catch (error) {
@@ -56,9 +26,7 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
 export async function saveContentToFirestore(content: PortfolioContent): Promise<void> {
   try {
     const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC_ID)
-    // Ensure only 1 project is saved
-    const migratedContent = migrateProjects(content)
-    await setDoc(docRef, migratedContent, { merge: true })
+    await setDoc(docRef, content, { merge: true })
   } catch (error) {
     console.error("Error saving content to Firestore:", error)
     throw error
@@ -89,8 +57,7 @@ export function subscribeToContent(
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data() as PortfolioContent
-          const migratedData = migrateProjects(data)
-          callback(migratedData)
+          callback(data)
         }
       },
       (error) => {
