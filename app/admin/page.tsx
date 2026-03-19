@@ -53,20 +53,17 @@ export default function AdminDashboard() {
 
   // Update edited content when content changes
   useEffect(() => {
-    // Normalize projects to ensure images array exists with proper structure
+    // Normalize projects to ensure new image fields exist
     const normalizedContent = {
       ...content,
       projects: (content.projects || []).map(project => ({
         ...project,
-        images: Array.isArray(project.images) && project.images.length >= 5
-          ? project.images.slice(0, 5)
-          : [
-              project.images?.[0] || "",
-              project.images?.[1] || "",
-              project.images?.[2] || "",
-              project.images?.[3] || "",
-              project.images?.[4] || ""
-            ]
+        // Migrate from old images array if present
+        image1: project.image1 || (Array.isArray(project.images) ? project.images[0] : "") || "",
+        image2: project.image2 || (Array.isArray(project.images) ? project.images[1] : "") || "",
+        image3: project.image3 || (Array.isArray(project.images) ? project.images[2] : "") || "",
+        youtubeUrl1: project.youtubeUrl1 || "",
+        youtubeUrl2: project.youtubeUrl2 || ""
       }))
     }
     setEditedContent(normalizedContent)
@@ -185,7 +182,11 @@ export default function AdminDashboard() {
       category: "Category",
       year: new Date().getFullYear().toString(),
       thumbnail: "",
-      images: ["", "", ""],
+      image1: "",
+      image2: "",
+      image3: "",
+      youtubeUrl1: "",
+      youtubeUrl2: "",
       description: "Project description",
       timeline: "X weeks",
       client: "Client Name",
@@ -715,131 +716,66 @@ export default function AdminDashboard() {
                           />
                         </div>
                         <div className="space-y-1.5 md:col-span-2">
-                          <Label className="text-xs font-semibold mb-2 block">Project Images (Image 1 used as icon next to title)</Label>
+                          <Label className="text-xs font-semibold mb-2 block">Project Media</Label>
                           
                           {/* Image 1 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
                             <Label className="text-xs">Image 1 (Main/Icon)</Label>
-                            <ImageUpload
-                              category="projects"
-                              label="Image 1"
-                              currentImage={project.images?.[0] || ""}
-                              onImageUpload={(path) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[0] = path
-                                updateProject(index, "images", newImages)
-                              }}
-                            />
                             <Input
-                              value={project.images?.[0] || ""}
-                              onChange={(e) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[0] = e.target.value
-                                updateProject(index, "images", newImages)
-                              }}
+                              value={project.image1 || ""}
+                              onChange={(e) => updateProject(index, "image1", e.target.value)}
                               className="h-8 text-sm"
-                              placeholder="Or paste URL..."
+                              placeholder="/projects/image1.jpg"
                             />
+                            <p className="text-[10px] text-muted-foreground">Manual path (e.g., /projects/image1.jpg)</p>
                           </div>
 
                           {/* Image 2 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 2</Label>
-                            <ImageUpload
-                              category="projects"
-                              label="Image 2"
-                              currentImage={project.images?.[1] || ""}
-                              onImageUpload={(path) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[1] = path
-                                updateProject(index, "images", newImages)
-                              }}
-                            />
+                            <Label className="text-xs">Image 2 (Clickable Preview)</Label>
                             <Input
-                              value={project.images?.[1] || ""}
-                              onChange={(e) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[1] = e.target.value
-                                updateProject(index, "images", newImages)
-                              }}
+                              value={project.image2 || ""}
+                              onChange={(e) => updateProject(index, "image2", e.target.value)}
                               className="h-8 text-sm"
-                              placeholder="Or paste URL..."
+                              placeholder="/projects/image2.jpg"
                             />
+                            <p className="text-[10px] text-muted-foreground">Manual path (e.g., /projects/image2.jpg)</p>
                           </div>
 
                           {/* Image 3 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 3</Label>
-                            <ImageUpload
-                              category="projects"
-                              label="Image 3"
-                              currentImage={project.images?.[2] || ""}
-                              onImageUpload={(path) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[2] = path
-                                updateProject(index, "images", newImages)
-                              }}
-                            />
+                            <Label className="text-xs">Image 3 (Clickable Preview)</Label>
                             <Input
-                              value={project.images?.[2] || ""}
-                              onChange={(e) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[2] = e.target.value
-                                updateProject(index, "images", newImages)
-                              }}
+                              value={project.image3 || ""}
+                              onChange={(e) => updateProject(index, "image3", e.target.value)}
                               className="h-8 text-sm"
-                              placeholder="Or paste URL..."
+                              placeholder="/projects/image3.jpg"
                             />
+                            <p className="text-[10px] text-muted-foreground">Manual path (e.g., /projects/image3.jpg)</p>
                           </div>
 
-                          {/* Image 4 */}
+                          {/* YouTube URL 1 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 4</Label>
-                            <ImageUpload
-                              category="projects"
-                              label="Image 4"
-                              currentImage={project.images?.[3] || ""}
-                              onImageUpload={(path) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[3] = path
-                                updateProject(index, "images", newImages)
-                              }}
-                            />
+                            <Label className="text-xs">YouTube Video 1 URL</Label>
                             <Input
-                              value={project.images?.[3] || ""}
-                              onChange={(e) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[3] = e.target.value
-                                updateProject(index, "images", newImages)
-                              }}
+                              value={project.youtubeUrl1 || ""}
+                              onChange={(e) => updateProject(index, "youtubeUrl1", e.target.value)}
                               className="h-8 text-sm"
-                              placeholder="Or paste URL..."
+                              placeholder="https://www.youtube.com/watch?v=..."
                             />
+                            <p className="text-[10px] text-muted-foreground">Full YouTube URL (will embed as iframe)</p>
                           </div>
 
-                          {/* Image 5 */}
+                          {/* YouTube URL 2 */}
                           <div className="space-y-1.5 rounded-lg border border-border/50 p-3 bg-secondary/20">
-                            <Label className="text-xs">Image 5</Label>
-                            <ImageUpload
-                              category="projects"
-                              label="Image 5"
-                              currentImage={project.images?.[4] || ""}
-                              onImageUpload={(path) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[4] = path
-                                updateProject(index, "images", newImages)
-                              }}
-                            />
+                            <Label className="text-xs">YouTube Video 2 URL</Label>
                             <Input
-                              value={project.images?.[4] || ""}
-                              onChange={(e) => {
-                                const newImages = [...(project.images || ["", "", "", "", ""])]
-                                newImages[4] = e.target.value
-                                updateProject(index, "images", newImages)
-                              }}
+                              value={project.youtubeUrl2 || ""}
+                              onChange={(e) => updateProject(index, "youtubeUrl2", e.target.value)}
                               className="h-8 text-sm"
-                              placeholder="Or paste URL..."
+                              placeholder="https://www.youtube.com/watch?v=..."
                             />
+                            <p className="text-[10px] text-muted-foreground">Full YouTube URL (will embed as iframe)</p>
                           </div>
                         </div>
                       </div>

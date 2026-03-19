@@ -6,6 +6,8 @@ import { ArrowUpRight, Mail, Linkedin, Instagram, X, ChevronDown, Star, Clock, U
 import { useContent } from "@/context/content-context"
 import { TermsDialog } from "@/components/terms-dialog"
 import { BackgroundAnimation } from "@/components/background-animation"
+import { ImageLightbox } from "@/components/image-lightbox"
+import { YouTubeEmbed } from "@/components/youtube-embed"
 
 const navItems = ["Home", "About", "Work", "Contact"]
 
@@ -16,6 +18,7 @@ export default function Portfolio() {
   const [activeReview, setActiveReview] = useState(0)
   const [isTermsOpen, setIsTermsOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null)
 
   // Auto-loop reviews every 4 seconds
   useEffect(() => {
@@ -219,7 +222,7 @@ export default function Portfolio() {
                   </div>
                   <div className="mt-2 space-y-1.5 md:mt-3 md:space-y-2">
                     {content.projects.slice(0, 3).map((project, i) => {
-                      const firstImage = project.images?.[0] || project.thumbnail
+                      const firstImage = project.image1 || project.thumbnail
                       return (
                         <div key={i} className="flex items-center gap-2 rounded-lg bg-secondary/50 p-1.5 md:gap-3 md:p-2">
                           <div className="h-8 w-8 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/30 to-primary/5 md:h-10 md:w-10">
@@ -505,7 +508,7 @@ export default function Portfolio() {
               
               <div className="mt-4 md:mt-6">
                 {content.projects.map((project, i) => {
-                  const firstImage = project.images?.[0] || project.thumbnail
+                  const firstImage = project.image1 || project.thumbnail
                   return (
                     <motion.div
                       key={i}
@@ -554,27 +557,60 @@ export default function Portfolio() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-4 pl-10 md:pl-16">
-                              {/* Project Images */}
-                              <div className="flex gap-2 overflow-x-auto pb-3 md:gap-3">
-                                {project.images && project.images.length > 0 ? (
-                                  project.images.map((imgUrl, imgIndex) => (
-                                    <div 
-                                      key={imgIndex} 
-                                      className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl"
-                                    >
-                                      <img 
-                                        src={imgUrl} 
-                                        alt={`${project.title} - Image ${imgIndex + 1}`}
-                                        className="h-full w-full object-cover"
-                                        crossOrigin="anonymous"
-                                        referrerPolicy="no-referrer"
-                                      />
-                                    </div>
-                                  ))
-                                ) : (
-                                  <div className="h-24 w-36 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 md:h-32 md:w-48 md:rounded-xl" />
+                            <div className="pb-4 pl-10 md:pl-16 space-y-4">
+                              {/* Project Images Gallery */}
+                              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                                {project.image1 && (
+                                  <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    onClick={() => setLightboxImage(project.image1)}
+                                    className="overflow-hidden rounded-lg cursor-pointer group"
+                                  >
+                                    <img 
+                                      src={project.image1} 
+                                      alt={`${project.title} - Image 1`}
+                                      className="h-48 w-full object-cover rounded-lg transition-transform group-hover:scale-110"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </motion.button>
                                 )}
+                                {project.image2 && (
+                                  <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    onClick={() => setLightboxImage(project.image2)}
+                                    className="overflow-hidden rounded-lg cursor-pointer group"
+                                  >
+                                    <img 
+                                      src={project.image2} 
+                                      alt={`${project.title} - Image 2`}
+                                      className="h-48 w-full object-cover rounded-lg transition-transform group-hover:scale-110"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </motion.button>
+                                )}
+                                {project.image3 && (
+                                  <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    onClick={() => setLightboxImage(project.image3)}
+                                    className="overflow-hidden rounded-lg cursor-pointer group"
+                                  >
+                                    <img 
+                                      src={project.image3} 
+                                      alt={`${project.title} - Image 3`}
+                                      className="h-48 w-full object-cover rounded-lg transition-transform group-hover:scale-110"
+                                      crossOrigin="anonymous"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                  </motion.button>
+                                )}
+                              </div>
+
+                              {/* YouTube Videos */}
+                              <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                {project.youtubeUrl1 && <YouTubeEmbed url={project.youtubeUrl1} />}
+                                {project.youtubeUrl2 && <YouTubeEmbed url={project.youtubeUrl2} />}
                               </div>
                               
                               {/* Project Description */}
@@ -703,6 +739,13 @@ export default function Portfolio() {
 
       {/* Terms & Conditions Dialog */}
       <TermsDialog isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
+      
+      {/* Image Lightbox */}
+      <ImageLightbox 
+        imageUrl={lightboxImage || ""} 
+        isOpen={!!lightboxImage} 
+        onClose={() => setLightboxImage(null)} 
+      />
     </div>
   )
 }
