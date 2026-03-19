@@ -5,13 +5,13 @@ import type { PortfolioContent } from "@/context/content-context"
 const CONTENT_DOC_ID = "portfolio-data"
 const CONTENT_COLLECTION = "portfolio"
 
-// Convert old project structure to new one (field migration only, no trimming)
-function convertProjectStructure(content: PortfolioContent): PortfolioContent {
+// Migrate old project structure to new one
+function migrateProjects(content: PortfolioContent): PortfolioContent {
   if (!content.projects || content.projects.length === 0) return content
   
   return {
     ...content,
-    projects: content.projects.map((project: any) => ({
+    projects: content.projects.slice(0, 1).map((project: any) => ({
       title: project.title || "",
       category: project.category || "",
       year: project.year || "",
@@ -37,9 +37,13 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
     
     if (docSnap.exists()) {
       const data = docSnap.data() as PortfolioContent
-      // Convert old structure if needed (preserves all projects)
-      const convertedData = convertProjectStructure(data)
-      return convertedData
+      // Migrate old structure if needed
+      const migratedData = migrateProjects(data)
+      // If migration happened (projects were trimmed), save it back
+      if (migratedData.projects.length !== data.projects.length) {
+        await setDoc(docRef, migratedData, { merge: true })
+      }
+      return migratedData
     }
     return null
   } catch (error) {
@@ -52,9 +56,9 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
 export async function saveContentToFirestore(content: PortfolioContent): Promise<void> {
   try {
     const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC_ID)
-    // Convert structure if needed, but preserve ALL projects
-    const convertedContent = convertProjectStructure(content)
-    await setDoc(docRef, convertedContent, { merge: true })
+    // Ensure only 1 project is saved
+    const migratedContent = migrateProjects(content)
+    await setDoc(docRef, migratedContent, { merge: true })
   } catch (error) {
     console.error("Error saving content to Firestore:", error)
     throw error
@@ -85,8 +89,8 @@ export function subscribeToContent(
       (docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data() as PortfolioContent
-          const convertedData = convertProjectStructure(data)
-          callback(convertedData)
+          const migratedData = migrateProjects(data)
+          callback(migratedData)
         }
       },
       (error) => {
