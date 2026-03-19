@@ -52,9 +52,9 @@ export default function AdminDashboard() {
     }
   }, [router])
 
-  // Only normalize content on first load, not on every content change
+  // Update edited content when content changes
   useEffect(() => {
-    // Initialize editedContent with normalized data on mount
+    // Normalize projects to ensure new image fields exist
     const normalizedContent = {
       ...content,
       projects: (content.projects || []).map(project => ({
@@ -68,8 +68,7 @@ export default function AdminDashboard() {
       }))
     }
     setEditedContent(normalizedContent)
-  }, []) // Empty dependency array - only run on mount
-
+  }, [content])
 
   // Track changes
   useEffect(() => {

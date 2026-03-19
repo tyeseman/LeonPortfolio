@@ -5,13 +5,13 @@ import type { PortfolioContent } from "@/context/content-context"
 const CONTENT_DOC_ID = "portfolio-data"
 const CONTENT_COLLECTION = "portfolio"
 
-// Migrate old project structure to new field names
+// Migrate old project structure to new one
 function migrateProjects(content: PortfolioContent): PortfolioContent {
   if (!content.projects || content.projects.length === 0) return content
   
   return {
     ...content,
-    projects: content.projects.map((project: any) => ({
+    projects: content.projects.slice(0, 1).map((project: any) => ({
       title: project.title || "",
       category: project.category || "",
       year: project.year || "",
@@ -39,6 +39,10 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
       const data = docSnap.data() as PortfolioContent
       // Migrate old structure if needed
       const migratedData = migrateProjects(data)
+      // If migration happened (projects were trimmed), save it back
+      if (migratedData.projects.length !== data.projects.length) {
+        await setDoc(docRef, migratedData, { merge: true })
+      }
       return migratedData
     }
     return null
@@ -52,7 +56,7 @@ export async function loadContentFromFirestore(): Promise<PortfolioContent | nul
 export async function saveContentToFirestore(content: PortfolioContent): Promise<void> {
   try {
     const docRef = doc(db, CONTENT_COLLECTION, CONTENT_DOC_ID)
-    // Migrate structure but preserve all projects
+    // Ensure only 1 project is saved
     const migratedContent = migrateProjects(content)
     await setDoc(docRef, migratedContent, { merge: true })
   } catch (error) {
