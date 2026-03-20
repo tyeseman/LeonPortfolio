@@ -40,7 +40,7 @@ export default function Portfolio() {
       <BackgroundAnimation />
       
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 md:py-4 border-b border-border">
         <motion.div 
           className="font-display text-base font-bold tracking-tight md:text-lg"
           initial={{ opacity: 0, x: -20 }}
@@ -134,7 +134,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-20 md:overflow-hidden md:px-8 md:pb-24 md:pt-16"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-28 md:overflow-hidden md:px-8 md:pb-24 md:pt-24"
           >
             <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
               
