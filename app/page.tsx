@@ -134,7 +134,7 @@ export default function Portfolio() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-24 md:overflow-hidden md:px-8 md:pb-24 md:pt-20"
+            className="flex h-full w-full flex-col items-center justify-center overflow-y-auto px-4 pb-12 pt-20 md:overflow-hidden md:px-8 md:pb-24 md:pt-16"
           >
             <div className="flex w-full max-w-6xl flex-col gap-6 md:grid md:grid-cols-12 md:gap-4">
               
